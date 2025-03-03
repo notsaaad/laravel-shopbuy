@@ -1,10 +1,10 @@
-@if(Session::has('error'))
+@if(Session::has('error') || $errors->any())
 
 <script>
 
   let timerInterval;
 Swal.fire({
-  title: "Test",
+  title: "{{Session::get('error')}}",
 
   timer: 2500,
   timerProgressBar: true,

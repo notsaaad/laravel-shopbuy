@@ -3,7 +3,7 @@
 
   let timerInterval;
 Swal.fire({
-  title: " {{Session::get('success')}} تيست ",
+  title: " {{Session::get('success')}}",
   timer: 2500,
   timerProgressBar: true,
   icon: "success",
