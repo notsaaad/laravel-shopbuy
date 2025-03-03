@@ -1,0 +1,84 @@
+
+
+.main-content{
+    background-color: #f7f7f7;
+}
+
+.form-container{
+    background-color: white;
+}
+.input-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: none;
+    margin-top: 5px;
+}
+
+
+.form-container button {
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+
+.or-section {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #888;
+}
+
+
+.google-btn {
+    background:var(--primary-color);
+    color: #444;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.google-btn:hover {
+    background: #f1f1f1;
+}
+
+
+.google-icon {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 8px;
+    color: #ea4335;
+}
+
+
+.signin-text {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #444;
+}
+
+.signin-text a {
+    color:var(--sec-color);
+    text-decoration: none;
+}
+
+.signin-text a:hover {
+    text-decoration: underline;
+}

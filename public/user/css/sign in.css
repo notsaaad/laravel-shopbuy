@@ -1,0 +1,119 @@
+:root{
+    --primary-color:white;
+    --sec-color: #0046be;
+}
+
+
+
+
+.top-bar {
+    background-color:var(--sec-color); 
+    color:var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 18px;
+   
+   
+   
+}
+
+
+.logo {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+.buy {
+    color: yellow;
+}
+
+
+.return-link {
+    color:var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.return-link:hover {
+    text-decoration: underline;
+}
+
+
+
+.login-container {
+    background-color:var(--primary-color);
+    padding: 20px;
+    border-radius: 8px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 320px;
+    margin: 100px auto 0;
+    border: 1px solid #ddd;
+}
+
+
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color:var(--sec-color);
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.apple-login {
+    background-color:var(--primary-color);
+    color:black;
+    margin-top: 10px;
+    border: 1px solid black;
+}
+
+.google-login {
+    background-color:var(--primary-color);
+    color: black;
+    border: 1px solid black;
+    margin-top: 5px;
+    transition: background-color 0.3s,color 0.3s;
+}
+.apple-login:hover{
+    background-color: black;
+    color:var(--primary-color);
+}
+.separator {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.register {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.register a {
+    color:var(--sec-color)
+   
+}
