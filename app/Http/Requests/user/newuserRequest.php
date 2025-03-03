@@ -31,7 +31,9 @@ class newuserRequest extends FormRequest
 
     function messages(){
       return [
-
+        "name.required" => "you must Enter your name",
+        "email.required" => "you must Enter your Email",
+        "password.required" => "you must Enter your password",
       ];
     }
 }

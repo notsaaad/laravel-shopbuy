@@ -26,7 +26,7 @@
       </div>
       <header class="header">
           <div class="main-header-content">
-            <div class="logo"><img src="{{URL::asset('public/user/images/logo.png')}}" class="Logo" alt="Logo" ></div>
+            <a href="{{route('index')}}" class="logo"><img src="{{URL::asset('public/user/images/logo.png')}}" class="Logo" alt="Logo" ></a>
             <button class="menu-button" id="menuButton">
                 <span class="menu-icon"></span> Menu
             </button>
