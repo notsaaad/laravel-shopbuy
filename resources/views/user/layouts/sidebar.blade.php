@@ -1,6 +1,7 @@
 <div class="sidebar" id="sidebar">
   <div class="menu-section">
     <h4>Shop by Department</h4>
+    <a class="menu-item" href="{{route('Signup')}}">My Account</a>
     <div class="DropDown">
       <a class="menu-item">Appliances</a>
       <div class="submenu">

@@ -59,11 +59,11 @@
           </div>
 
           <div class="dropdown">
-            <a class="links" href="">account &#9662;</a>
+            <a class="links" href="">My Account &#9662;</a>
             <div class="dropdown-content">
-              <a href="#">option 1</a>
-              <a href="#">option 2</a>
-              <a href="#">option 3</a>
+              <a href="{{route('Signup')}}">New Account</a>
+              <a href="{{route('login')}}">Login</a>
+              <a href="#">Logout</a>
             </div>
         </div>
 
@@ -76,14 +76,6 @@
           </div>
       </div>
 
-      <div class="dropdown">
-        <a class="links" href="">saved items &#9662;</a>
-        <div class="dropdown-content">
-          <a href="#">option 1</a>
-          <a href="#">option 2</a>
-          <a href="#">option 3</a>
-        </div>
-    </div>
 
 
 

@@ -1,12 +1,14 @@
-@if(Session::has('success'))
+@if(Session::has('error'))
+
 <script>
 
   let timerInterval;
 Swal.fire({
-  title: " {{Session::get('success')}} ",
+  title: "{{Session::get('error')}}",
+
   timer: 2000,
   timerProgressBar: true,
-  icon: "success",
+  icon: "error",
   didOpen: () => {
     Swal.showLoading();
     // const timer = Swal.getPopup().querySelector("b");
@@ -21,4 +23,5 @@ Swal.fire({
 
 });
 </script>
+
 @endif
