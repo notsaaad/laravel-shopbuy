@@ -43,6 +43,6 @@ class HomeController extends Controller
     }
 
 
-    return redirect()->route('Signup')->with(['error' => 'something went wrong']);
+    return redirect()->back()->with(['error' => 'something went wrong']);
   }
 }
