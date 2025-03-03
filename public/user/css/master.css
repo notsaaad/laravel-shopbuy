@@ -34,7 +34,7 @@ a:hover{
 
 
 /* ========================================= Start Header ======================== */
-img{
+.logo img{
   width: 90px;
   border-radius: 6px;
 }
@@ -118,9 +118,7 @@ img{
   font-size: 20px;
   margin-right: 50px;
 }
-.logo img{
-  width: 80px;
-}
+
 
 .menu-button {
   background: none;
