@@ -6,7 +6,7 @@
 Swal.fire({
   title: "Test",
 
-  timer: 2000,
+  timer: 2500,
   timerProgressBar: true,
   icon: "error",
   didOpen: () => {

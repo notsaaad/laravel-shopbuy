@@ -1,10 +1,10 @@
-{{-- @if(Session::has('success')) --}}
+@if(Session::has('success'))
 <script>
 
   let timerInterval;
 Swal.fire({
   title: " {{Session::get('success')}} تيست ",
-  timer: 3000,
+  timer: 2500,
   timerProgressBar: true,
   icon: "success",
   didOpen: () => {
@@ -21,4 +21,4 @@ Swal.fire({
 
 });
 </script>
-{{-- @endif --}}
+@endif
