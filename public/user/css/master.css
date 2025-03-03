@@ -38,6 +38,11 @@ a:hover{
   width: 90px;
   border-radius: 6px;
 }
+@media screen and (max-width:500px) {
+  .logo img{
+    width: 50px;
+  }
+}
 .aside-overlay{
   position: fixed;
   width: 100%;
@@ -110,6 +115,8 @@ a:hover{
   .main-header-content{
     flex-wrap: wrap;
     height: 100%;
+    justify-content: center;
+    align-items: center;
   }
 }
 
