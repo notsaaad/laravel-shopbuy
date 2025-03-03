@@ -118,6 +118,9 @@ img{
   font-size: 20px;
   margin-right: 50px;
 }
+.logo img{
+  width: 80px;
+}
 
 .menu-button {
   background: none;
