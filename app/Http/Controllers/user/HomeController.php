@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
   function home(){
-    return view('user.home');
+    return view('user.home')->with(['success'=> 'tostr Work']);
   }
+
+
 }

@@ -17,3 +17,4 @@ use App\Http\Controllers\user\HomeController;
 
 
 Route::get('/', [HomeController::class, 'home'])->name('index');
+

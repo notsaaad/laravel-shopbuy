@@ -34,6 +34,10 @@ a:hover{
 
 
 /* ========================================= Start Header ======================== */
+.Logo{
+  width: 90px;
+  border-radius: 6px;
+}
 .aside-overlay{
   position: fixed;
   width: 100%;
@@ -286,7 +290,7 @@ a:hover{
   height: 100vh;
   overflow-y: auto;
   position: fixed;
-  left: -500px; 
+  left: -500px;
   transition: left 0.3s ease;
   z-index: -1;
   height: 100%;
@@ -332,7 +336,7 @@ a:hover{
   content: '\f0da';
   float: right;
   color: #aaa;
-  font-family: FontAwesome; 
+  font-family: FontAwesome;
 }
 .DropDown.active > .menu-item::after{
   content: '\f0d7';
@@ -417,7 +421,7 @@ a:hover{
 /* ============================================= Start Footer ================================= */
 
 
-  
+
 footer {
   background-color:var(--gray-bg);
   padding: 20px 40px;
