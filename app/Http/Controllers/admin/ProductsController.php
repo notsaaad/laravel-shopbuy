@@ -28,7 +28,7 @@ class ProductsController extends Controller
       $file = $request->file('image');
       $exta = $file->getClientOriginalExtension();
       $file_name  = time().  '.' . $exta;
-      $path       = "/public/admin/images/products/";
+      $path       = "public/admin/images/products/";
       $file->move($path, $file_name);
 
       $arr = array(

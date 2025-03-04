@@ -62,7 +62,7 @@ class HomeController extends Controller
   function api_product(){
     $products = Products::get();
     for($i = 0; $i<count($products); $i++){
-      $products[$i]['image'] = route('index'). $products[$i]['image'];
+      $products[$i]['image'] = route('index').'/'. $products[$i]['image'];
     }
     return response()->json($products);
   }
