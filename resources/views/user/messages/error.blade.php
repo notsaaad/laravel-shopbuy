@@ -4,7 +4,7 @@
 
   let timerInterval;
 Swal.fire({
-  title: "{{Session::get('error')}}",
+  title: "{{Session::get('error')}} ",
 
   timer: 2500,
   timerProgressBar: true,

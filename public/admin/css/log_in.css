@@ -1,0 +1,137 @@
+
+
+.form{
+	width: 100%;
+	display: flex;
+	background-color:#121a2f;
+	height: 100vh;
+	overflow: hidden;
+} 
+/* ===================================== Start Right Section ======================================== */
+.section_img{
+	width: 50%;
+	height: 100%;
+	background-color: var(--secondry-color);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center
+}
+@media screen and (max-width:800px) {
+	.section_img{
+		display: none;
+	}
+}
+
+.section_img img{
+	width: 100%;
+}
+.section_img p{
+	white-space: nowrap;
+	font-size: 40px;
+	color: aliceblue;
+	position: relative;
+	margin-bottom: 30px;
+	text-align: center;
+	line-height: 1.8;
+}
+/* ===================================== Start Right Section ======================================== */
+.section_log_in{
+	width: 50%;
+	height:100%;
+	background:var( --bg-color);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+
+@media screen and (max-width:800px) {
+	.section_log_in{
+		width: 100%;
+	}
+}
+.section_log_in h2{
+	font-size: 38px;
+	font-weight: 700;
+	line-height: 1.1;
+	justify-content: center;
+	align-items: center;
+	color:#b0b7d4;
+	flex-direction: column;
+
+}
+.section_log_in p{
+
+	font-size: 16px;
+	line-height: 1.5;
+	max-width: 300px;
+	color: #b0b7d4;
+}
+.log_in{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 80%;
+	}
+	
+
+/* .log_in input{
+	width: 75%;
+	height: 50px;
+	padding: 0 20px ;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	border: 1px solid #3a4b78;
+	background: #182a4e;
+	color: #b0b7d4;
+	font-size: 18px;
+	text-align: left;
+	text-overflow: ellipsis;
+}
+.log_in input:hover{
+	border: 2px solid rgba(21, 18, 190, 0.701);
+} */
+.forget-password-div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.forgot-password{
+	font-size: 16px;
+	position: relative;
+	width: fit-content;
+	text-decoration: none;
+	text-transform: capitalize;
+	text-align: center;
+	margin-top: 15px;
+}
+.eye{
+	/* position: absolute; */
+	height: 1px;
+	right: 5px;
+	bottom: -90px;
+	border: 0;
+	align-items: center;
+	background-color: #0d333a;
+	cursor: pointer;
+
+}
+.forgot-password a{
+	position: relative;
+	text-transform: capitalize;
+	text-decoration: none;
+	transform: 0.5s;
+	transition: 0.3s;
+}
+
+
+.signup{
+	font-size: 14px;
+	text-align: center;
+	white-space: nowrap;
+	color: aliceblue;   
+}

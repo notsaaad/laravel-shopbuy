@@ -1,0 +1,112 @@
+main.Editor{
+  box-sizing: border-box;
+  font-family: sans-serif;
+  justify-content: center;
+  padding: 20px;
+  display: table;
+  width: 83%;
+  margin: 10px auto;
+  background-color:var(--font_table);
+  box-shadow: 0 1px 4px 0 var(--link-color);
+}
+.product_editor{
+  cursor: pointer;
+  display: flex;
+}
+.product_editor i{
+  font-size: 27px;
+}
+.image-upload{
+  box-sizing: border-box;
+  font-family: sans-serif;
+  display: block;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: 2px dotted var(--link-color);
+  width: 100%;
+  margin: 10px;
+  background-color: var(--font_table);
+  position: relative;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
+}
+.image-upload::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 30px;
+  z-index: 55;
+  background-color: var(--font_table);
+  width: 100%;
+  cursor: not-allowed;
+}
+.fileInput{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  color: transparent;
+}
+.Upload_image{
+  color: var(--link-color);
+
+}
+.files{
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-direction: column;
+}
+.Dropdown_div{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.Description_div{
+  display: flex;
+  flex-direction: column;
+}
+.dropdown_Attributes{
+  border: none;
+  border-radius: 10px;
+  border: 2px solid var(--dropdown-color);
+  flex-direction: column;
+}
+.dropdown_Attributes:hover{
+  border: 2px solid  var(--link-color) ;
+}
+
+.Description{
+  font-size: 18px;
+  color: var(--color-semi-gray);
+  height: 160px !important;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  width: 70%;
+  white-space: unset !important;
+  background-color: var(--font_table);
+  border: 2px solid var(--dropdown-color);
+  box-shadow: 0 4px 8px var(--bg-color);
+  padding: 0 20px;
+  padding-top: 20px !important;
+  overflow: hidden;
+  resize: none;
+}
+.Description:hover{
+  border: 2px solid var(--link-color);
+}
+.Description_p{
+  margin-top: 10px;
+  color: var(--color-semi-gray);
+}

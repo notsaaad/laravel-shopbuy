@@ -1,0 +1,41 @@
+.code{
+  color:var(--link-color);
+}
+.user{
+  color: var(--font-product);
+  font-size: 18px;
+  font-weight: bold;
+  align-items: right;
+  padding: 20px;
+  justify-content: right;
+}
+.COMPLETED{
+  background-color:var(--link-color);
+  height: 80%;
+  width: 10%;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 10px;
+  cursor: pointer;
+  border:none;
+}
+.CONFIRMED{
+  background-color:var(--submit-bg);
+  height: 80%;
+  width: 10%;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 10px;
+  cursor: pointer;
+  border:none;
+}
+.CANCELLED{
+  background-color:var(--font-btn-red);
+  height: 80%;
+  width: 10%;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 10px;
+  cursor: pointer;
+  border:none;
+}

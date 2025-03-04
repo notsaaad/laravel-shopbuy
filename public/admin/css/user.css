@@ -1,0 +1,12 @@
+.titel_form{
+  color: var(--color-semi-gray);
+  justify-items: center;
+}
+
+.add_user{
+  padding: 20px 0;
+}
+
+.section_user{
+  width: 100%;
+}
