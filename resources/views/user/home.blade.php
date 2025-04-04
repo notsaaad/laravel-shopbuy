@@ -62,7 +62,7 @@
             <!-- Air Conditioner -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/10.jpeg') }}" alt="Air Conditioner"
+                    <img src="{{ URL::asset('public/user/images/10.jpeg') }}" alt="Air Conditioner"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">AIR CONDITIONER</h6>
@@ -73,7 +73,7 @@
             <!-- Audio & Video -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/11.jpeg') }}" alt="Audio & Video"
+                    <img src="{{ URL::asset('public/user/images/11.jpeg') }}" alt="Audio & Video"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">AUDIO & VIDEO</h6>
@@ -84,7 +84,7 @@
             <!-- Gadgets -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/12.jpeg') }}" alt="Gadgets"
+                    <img src="{{ URL::asset('public/user/images/12.jpeg') }}" alt="Gadgets"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">GADGETS</h6>
@@ -95,7 +95,7 @@
             <!-- Home Appliances -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/13.jpeg') }}" alt="Home Appliances"
+                    <img src="{{ URL::asset('public/user/images/13.jpeg') }}" alt="Home Appliances"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">HOME APPLIANCES</h6>
@@ -113,7 +113,7 @@
             <!-- Air Conditioner -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/14.jpeg') }}" alt="Air Conditioner"
+                    <img src="{{ URL::asset('public/user/images/14.jpeg') }}" alt="Air Conditioner"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">AIR CONDITIONER</h6>
@@ -124,7 +124,7 @@
             <!-- Audio & Video -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/15.jpeg') }}" alt="Audio & Video"
+                    <img src="{{ URL::asset('public/user/images/15.jpeg') }}" alt="Audio & Video"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">AUDIO & VIDEO</h6>
@@ -135,7 +135,7 @@
             <!-- Gadgets -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/16.jpeg') }}" alt="Gadgets"
+                    <img src="{{ URL::asset('public/user/images/16.jpeg') }}" alt="Gadgets"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">GADGETS</h6>
@@ -146,7 +146,7 @@
             <!-- Home Appliances -->
             <div class="col">
                 <div class="card text-center border-0">
-                    <img src="{{ asset('public/user/images/17.jpeg') }}" alt="Home Appliances"
+                    <img src="{{ URL::asset('public/user/images/17.jpeg') }}" alt="Home Appliances"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
                     <div class="card-body">
                         <h6 class="card-title">HOME APPLIANCES</h6>
@@ -164,7 +164,7 @@
             <!-- Product 1 -->
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/17.jpeg') }}" class="card-img-top" alt="Product 1">
+                    <img src="{{ URL::asset('public/user/images/17.jpeg') }}" class="card-img-top" alt="Product 1">
                     <div class="card-body">
                         <h5 class="card-title">Multigroomer All-in-One</h5>
                         <p class="card-text text-muted">23 Piece Men's Grooming Kit</p>
