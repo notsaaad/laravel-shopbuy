@@ -18,12 +18,12 @@
     <div class="container-fluid hero-section">
         <div class="row w-100">
             <div class="col-md-6">
-                <img src="{{ asset('public/user/images/9.jpeg') }}"alt="TV image" class="img-fluid">
+                <img src="{{ URL::asset('public/user/images/9.jpeg') }}"alt="TV image" class="img-fluid">
             </div>
             <div class="col-md-6 hero-text">
                 <h1 class="fw-bold">The best home entertainment system is here</h1>
                 <p class="text-muted">Sit diam odio eget rhoncus volutpat est nibh velit posuere egestas.</p>
-                <a href="#" class="btn btn-primary">Shop now</a>
+                <a href="{{ route('store') }}" class="btn btn-primary">Shop now</a>
             </div>
         </div>
     </div>

@@ -1,7 +1,9 @@
 <div class="sidebar" id="sidebar">
   <div class="menu-section">
     <h4>Shop by Department</h4>
+    @if (! Auth::check())
     <a class="menu-item" href="{{route('Signup')}}">My Account</a>
+    @endif
     <div class="DropDown">
       <a class="menu-item">Appliances</a>
       <div class="submenu">

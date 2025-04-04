@@ -16,7 +16,9 @@
 
 </head>
 
-<body>
+<body @if (Auth::check())
+  class="user-{{ auth()->id()}}"
+@endif>
 
       <!-- ================================================== Start Header ==================================================== -->
       <div class="aside-overlay">
@@ -25,6 +27,28 @@
         </button>
       </div>
       <header class="header">
+        @if(Auth::check())
+          @if (Auth::user()->role == 'admin')
+            <style>
+              .admin-header{
+                background-color: black;
+                color: white;
+                font-size: 14px;
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                padding: 5px;
+              }
+              .admin-header a{
+                color:white;
+              }
+            </style>
+            <div class="admin-header">
+              <a href="{{ route('admin.index') }}">Go to Admin MR/{{Auth::user()->name}}*</a>
+            </div>
+          @endif
+        @endif
           <div class="main-header-content">
             <a href="{{route('index')}}" class="logo"><img src="{{URL::asset('public/user/images/logo.png')}}" class="Logo" alt="Logo" ></a>
             <button class="menu-button" id="menuButton">
@@ -43,38 +67,41 @@
             </div>
           </div>
           <div class="navbar">
-            <a class="links" href="#">Top Deals</a>
-            <a class="links" href="#">Deal of the Day</a>
-            <a class="links" href="#">Yes, Best Buy Sells That</a>
-            <a class="links" href="#">My Best Buy Memberships</a>
+            <a class="links" href="{{ route('index') }}">Home</a>
+            <a class="links" href="{{ route('store') }}">Store</a>
+            <a class="links" href="#">Orders</a>
+            <a class="links" href="#">Contact us</a>
 
-
-            <div class="dropdown">
+            {{-- <div class="dropdown">
               <a class="links" href="">MORE &#9662;</a>
               <div class="dropdown-content">
                   <a href="#"> option 1</a>
                   <a href="#"> option 1</a>
                   <a href="#">option  3</a>
               </div>
-          </div>
+          </div> --}}
 
           <div class="dropdown">
-            <a class="links" href="">My Account &#9662;</a>
+            <a class="links">My Account &#9662;</a>
             <div class="dropdown-content">
+              @if(! Auth::check())
               <a href="{{route('Signup')}}">New Account</a>
               <a href="{{route('login')}}">Login</a>
-              <a href="#">Logout</a>
+              @endif
+              @if (Auth::check())
+              <a href="{{ route('logout') }}">Logout</a>
+              @endif
             </div>
         </div>
 
-        <div class="dropdown">
+        {{-- <div class="dropdown">
           <a class="links" href="">order status &#9662;</a>
           <div class="dropdown-content">
             <a href="#">option 1</a>
             <a href="#">option 2</a>
             <a href="#">option 3</a>
           </div>
-      </div>
+      </div> --}}
 
 
 

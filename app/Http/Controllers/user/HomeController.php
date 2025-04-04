@@ -28,37 +28,51 @@ class HomeController extends Controller
     return view('user.login');
   }
 
+  function postLogin(Request $request){
+    $credentials = $request->only('email', 'password');
+
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $user = User::where('email', $credentials['email'])->first();
+    if ($user && Hash::check($credentials['password'], $user->password)) {
+        Auth::login($user);
+        return redirect()->route('index')->with(['success'=> 'Login Successfully']);
+    }
+
+    return back()->with(['error'=> 'Username or Password Wrong']);
+  }
+
+
+
   function Signup(){
     return view('user.signup');
   }
 
   function new_user(newuserRequest $request){
 
-  //   $validator  = $request->validate(
-  //     [
-  //       'name'      => 'required',
-  //       'email'     => 'required|unique:users',
-  //       'password'  => 'required|min:6',
-  //       // 'confirmed' => 'required|same:password:6',
-  //   ]
-  // );
-  // if ($validator->fails()) {
-  //   return redirect()->back()->with(['error' => "Something Went Wrong"]);
-  // }
     $data['name']       = $request->name;
     $data['email']      = $request->email;
-    $data['password']   = Hash::make($request->password);
+    $data['password']   = $request->password;
     $data['role']       = "customer";
     $user = User::create($data);
+
 
     if(!$user){
       return redirect()->back()->with(['error' => 'something went wrong']);
     }
-
+    $id   = $user->id;
+    Auth::loginUsingId($id);
     return redirect()->route('index')->with(['success'=> 'Account Created']);
-
   }
 
+
+  function logout(){
+    Auth::logout();
+    return redirect()->route('login')->with(['success'=> 'Logout  Successfully']);
+  }
   function api_product(){
     $products = Products::get();
     for($i = 0; $i<count($products); $i++){

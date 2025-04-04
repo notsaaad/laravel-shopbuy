@@ -20,7 +20,7 @@
   <div class="container">
     <div class="form-container">
       <h2 class="form-title">Sign in </h2>
-      <form action="" method="POST" >
+      <form action="{{ route('loign_post') }}" method="POST" >
 
         @csrf
           <div class="input-group">
@@ -29,7 +29,7 @@
 
           <div class="input-group">
             <div class="password-with-icon">
-              <input type="password" class="form-control"  id="Password" class="password" name="Password" placeholder="Your Password">
+              <input type="password" class="form-control"  id="Password" class="password" name="password" placeholder="Your Password">
             </div>
 
           </div>

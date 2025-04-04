@@ -6,7 +6,7 @@
 	background-color:#121a2f;
 	height: 100vh;
 	overflow: hidden;
-} 
+}
 /* ===================================== Start Right Section ======================================== */
 .section_img{
 	width: 50%;
@@ -25,7 +25,7 @@
 }
 
 .section_img img{
-	width: 100%;
+	width: 70%;
 }
 .section_img p{
 	white-space: nowrap;
@@ -77,7 +77,7 @@
 	justify-content: center;
 	width: 80%;
 	}
-	
+
 
 /* .log_in input{
 	width: 75%;
@@ -110,13 +110,9 @@
 	margin-top: 15px;
 }
 .eye{
-	/* position: absolute; */
-	height: 1px;
 	right: 5px;
-	bottom: -90px;
 	border: 0;
 	align-items: center;
-	background-color: #0d333a;
 	cursor: pointer;
 
 }
@@ -133,5 +129,5 @@
 	font-size: 14px;
 	text-align: center;
 	white-space: nowrap;
-	color: aliceblue;   
+	color: aliceblue;
 }

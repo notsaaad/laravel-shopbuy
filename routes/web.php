@@ -17,15 +17,16 @@ use App\Http\Controllers\admin\ProductsController;
 
 
 
-Route::get('/', [HomeController::class, 'home'])->name('index');
+
+Route::get('/',   [HomeController::class, 'home'])->name('index');
 Route::get('/store', [HomeController::class, 'store'])->name('store');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
+Route::post('post-login', [HomeController::class, 'postLogin'])->name('loign_post');
 Route::get('/signup', [HomeController::class, 'Signup'])->name('Signup');
 Route::post('/post-new-Account', [HomeController::class, 'new_user'])->name('signup_post');
+Route::get('logout', [HomeController::class, 'logout'])->name('logout');
 
 
 
 
 
-Route::get('admin/product/add', [ProductsController::class, 'add'])->name('admin.product.add');
-Route::post('admin/product/post', [ProductsController::class, 'post'])->name('admin.product.post');
