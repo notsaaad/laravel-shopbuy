@@ -16,11 +16,14 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+      if ($request->isMethod('post')){
+        return $next($request);
+      }
         if(!Auth::check() && $request->routeIs('admin.index')){
           return $next($request);
         }
         if(!Auth::check())
-          return redirect()->route('admin.index')->with(['error'=> 'Log in']);
+          return redirect()->route('admin.index')->with(['error'=> 'Log in For Access']);
         $role = Auth::user()->role;
         if($role != 'admin'){
           return redirect()->route('index')->with(['error'=> 'your are not allowed']);

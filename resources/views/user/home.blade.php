@@ -179,7 +179,7 @@
             <!-- Product 2 -->
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/16.jpeg') }}" class="card-img-top" alt="Product 2">
+                    <img src="{{ URL::asset('public/user/images/16.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
                         <h5 class="card-title">Smart Speaker</h5>
                         <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
@@ -193,7 +193,7 @@
             <!-- Product 3 -->
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/15.jpeg') }}" class="card-img-top" alt="Product 3">
+                    <img src="{{ URL::asset('public/user/images/15.jpeg') }}" class="card-img-top" alt="Product 3">
                     <div class="card-body">
                         <h5 class="card-title">Home Speaker 500</h5>
                         <p class="card-text text-muted">Smart Bluetooth Speaker</p>
@@ -207,7 +207,7 @@
             <!-- Product 4 -->
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/10.jpeg') }}" class="card-img-top" alt="Product 4">
+                    <img src="{{ URL::asset('public/user/images/10.jpeg') }}" class="card-img-top" alt="Product 4">
                     <div class="card-body">
                         <h5 class="card-title">Note 10 Pro</h5>
                         <p class="card-text text-muted">128GB 6GB RAM</p>
@@ -221,7 +221,7 @@
 
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/11.jpeg') }}" class="card-img-top" alt="Product 2">
+                    <img src="{{ URL::asset('public/user/images/11.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
                         <h5 class="card-title">Smart Speaker</h5>
                         <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
@@ -235,7 +235,7 @@
 
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/12.jpeg') }}" class="card-img-top" alt="Product 2">
+                    <img src="{{ URL::asset('public/user/images/12.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
                         <h5 class="card-title">Smart Speaker</h5>
                         <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
@@ -250,7 +250,7 @@
 
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/13.jpeg') }}" class="card-img-top" alt="Product 2">
+                    <img src="{{ URL::asset('public/user/images/13.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
                         <h5 class="card-title">Smart Speaker</h5>
                         <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
@@ -264,7 +264,7 @@
 
             <div class="col">
                 <div class="card h-100 position-relative">
-                    <img src="{{ asset('public/user/images/14.jpeg') }}" class="card-img-top" alt="Product 2">
+                    <img src="{{ URL::asset('public/user/images/14.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
                         <h5 class="card-title">Smart Speaker</h5>
                         <p class="card-text text-muted">Compact size with Alexa Voice Control</p>

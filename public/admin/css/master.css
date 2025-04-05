@@ -52,8 +52,10 @@ a:not(.link)::before{
   bottom: -7px;
   transform: 0.3s;
   transition: 1.5s;
+}
 
-
+.link a::before{
+  content: none;
 }
 a:hover{
   text-decoration-color: #22d3ee;
@@ -165,6 +167,34 @@ a:hover::before{
 .input-div select option:not(:last-child){
   border-bottom: 1px solid var(--color-semi-gray);
 }
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: var(--dark-bg-blue);
+  font-size: 14px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 input[type="submit"],
 button[type="submit"]{
   background: var(--submit-bg);
@@ -215,6 +245,7 @@ button[type="submit"]{
   border-radius: 30px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color:var(--color-semi-gray);
 }
 .toggle-btn{
   background-color: transparent;
@@ -262,7 +293,10 @@ button[type="submit"]{
   align-items: center;
   gap: 5px;
 }
-#Trash{
+.tax-count{
+  color:white;
+}
+.Trash{
   color: var(--font-btn-red);
 }
 /* ===================================== End  Global  ====================================== */
@@ -325,6 +359,11 @@ h3{
 .dropdown-item {
   color: var(--color-semi-gray);
 }
+.dropdown-menu a{
+  background-color: transparent !important;
+  border: none !important;
+  color:var(--link-color) !important;
+}
 
 
 /*================================================ titel =============================================*/
@@ -339,44 +378,9 @@ h3{
   font-size: 20px;
 }
 
-main.table{
-  box-sizing: border-box;
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  display: table;
-  width: 100%;
-  margin: 10px auto;
-  background-color:var(--font_table);
-  box-shadow: 0 1px 4px 0 var(--link-color);
-}
-main.table:hover{
-  box-shadow: 0 1px 4px 0 var(--border-color);
-}
-.table_body{
-  display: table-cell;
-  width: 30px;
-  text-align: center;
-  padding: 4px 0;
-  background-color:var(--font_table);
-}
-td img{
-  width: 35px;
-  height: 35px;
-  margin-right: .5rem;
-}
-table{
-  width: 100%;
-}
-table,th,td{
-  padding: .1rem;
-  background-color:var(--font_table);
-  padding: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 20px;
-}
+
+
+
 .table_header{
   box-sizing: border-box;
   width: 100%;
@@ -385,8 +389,32 @@ table,th,td{
   overflow-x: auto;
   scrollbar-color: var(--bg-color) var(--dark-bg-blue);
   scrollbar-arrow-color: var(--border-color);
-
+  box-shadow: 0 1px 4px 0 var(--link-color);
 }
+.table_header:hover{
+  box-shadow: 0 1px 4px 0 var(--border-color);
+}
+
+td img{
+  width: 35px;
+  height: 35px;
+}
+table{
+  width: 100%;
+}
+table thead tr{
+  border-bottom: 1px solid var(--color-semi-gray);
+}
+th,td{
+  padding: .1rem;
+  background-color:var(--font_table);
+  padding: 20px;
+  text-align: center;
+}
+td{
+  color: var(--font-product);
+}
+
 
 /* .table_header::-webkit-scrollbar-track{
   box-shadow: inset 0 0 5px var(--border-color);
@@ -610,4 +638,12 @@ form{
   font-size: 6px;
   margin-left: 5px;
   color: red;
+}
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:20px 0;
 }

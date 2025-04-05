@@ -34,15 +34,15 @@ function SearchTable(ele){
       }
     })
     console.log(Found);
-    
+
     if(Found){
       TableRows[i].style.display = "";
     }else{
       TableRows[i].style.display = "none";
     }
-    
+
   }
-} 
+}
 
 
 //toggle submenu
@@ -54,6 +54,15 @@ $(document).ready(function(){
       $(ele).toggleClass('Active')
     })
   })
-}); 
+});
 
+
+
+$('#check_all_ids').on('click', function(){
+  $('table tbody input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+})
+
+$('.clear-btn').on('click', function(){
+  $('table input[type="checkbox"]').prop('checked', false);
+});
 
