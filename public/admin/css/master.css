@@ -80,13 +80,24 @@ a:hover::before{
   margin-top: 20px;
   width: calc(100%  - 350px);
 }
-
+@media screen and (max-width:800px) {
+  .main-content{
+    width: 100%;
+  }
+}
 
 .site-name{
   font-weight: bold;
   font-size: 50px;
   font-style: italic;
   color: var(--color-semi-gray);
+  margin-bottom: 0;
+  text-align: center;
+}
+@media screen and (max-width:800px) {
+  .site-name{
+    font-size: 30px;
+  }
 }
 .header {
   display: flex;
@@ -298,6 +309,9 @@ button[type="submit"]{
 }
 .Trash{
   color: var(--font-btn-red);
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
 /* ===================================== End  Global  ====================================== */
 
@@ -349,10 +363,7 @@ h3{
   color:var(--color-semi-gray);
   padding: 10px;
 }
-.dropdown-menu li {
-  padding: 10px;
 
-}
 .dropdown-menu li:not(:last-child){
   border-bottom: 1px solid var(--dropdown-color-border);
 }
@@ -363,6 +374,10 @@ h3{
   background-color: transparent !important;
   border: none !important;
   color:var(--link-color) !important;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -390,6 +405,10 @@ h3{
   scrollbar-color: var(--bg-color) var(--dark-bg-blue);
   scrollbar-arrow-color: var(--border-color);
   box-shadow: 0 1px 4px 0 var(--link-color);
+/*
+  max-height: 50vh;
+  overflow-y: auto;
+  position: relative; */
 }
 .table_header:hover{
   box-shadow: 0 1px 4px 0 var(--border-color);
@@ -402,8 +421,13 @@ td img{
 table{
   width: 100%;
 }
-table thead tr{
+
+table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 10;
   border-bottom: 1px solid var(--color-semi-gray);
+  box-shadow: 0 2px 2px rgba(0,0,0,0.3); /* ظل خفيف */
 }
 th,td{
   padding: .1rem;
@@ -492,10 +516,32 @@ td{
   align-items: center;
   cursor: pointer;
   text-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .action_link a:hover{
   text-decoration: none;
   cursor: pointer;
+}
+.header .navbar-toggler{
+  display: none;
+}
+@media screen and (max-width:800px) {
+  .header .navbar-toggler{
+    display: block;
+  }
+}
+
+.offcanvas{
+  background-color: var(--dark-bg-blue);
+}
+.offcanvas .btn-close{
+  opacity: 1;
+}
+.offcanvas .btn-close i{
+  color:white;
+  font-size: 20px;
 }
 
 
@@ -505,6 +551,12 @@ td{
   padding: 20px;
   background-color: var(--dark-bg-blue);
 
+}
+
+@media screen and (max-width:800px) {
+  .main > .Aside{
+    display: none;
+  }
 }
 
 .Aside h2.logo{

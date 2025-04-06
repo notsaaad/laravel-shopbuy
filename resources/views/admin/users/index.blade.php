@@ -2,7 +2,12 @@
 
 @section('title', 'view Users')
 
+@section('css')
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content')
+
     <div class="title">
         <h1>Users</h1>
     </div>
@@ -10,9 +15,9 @@
         <a href="{{ route('users.create')}}" class="link our-btn add-product">
             Add new User<span class="icon"><i class="fa-solid fa-circle-plus"></i></span>
         </a>
-        <button class="our-btn export-csv">
+        {{-- <button class="our-btn export-csv">
             Export CSV<span class="icon"><i class="fa-solid fa-file-export"></i></span>
-        </button>
+        </button> --}}
     </div>
     <div class="taxonemy-content">
         <div class="taxonmies-div-title">Users:</div>
@@ -54,9 +59,9 @@
                 Bulk Action
             </button>
             <ul class="dropdown-menu">
-                <li><a class="link" class="dropdown-item" href="#">Edit</a></li>
-                <li><a class="link" class="dropdown-item" href="#">Delete</a></li>
-                <li><a class="link clear-btn" class="dropdown-item clear-btn">Cancel</a></li>
+                {{-- <li><a class="link" class="dropdown-item" href="#">Edit</a></li> --}}
+                <li><a class="link Deletebtn-checks" message="user" action="{{ route('admin.users.deleteAll') }}" >Delete</a></li>
+                <li><a class="link clear-btn">Cancel</a></li>
             </ul>
         </div>
 
@@ -91,16 +96,21 @@
                   @endphp
                   @foreach ( $users as $user )
                     @if (!$roleParam || $user->role===$roleParam)
-                    <tr>
-                      <td><input type="checkbox" name="row_id" value="{{ $user->id }}"> </td>
+                    <tr id="row_id{{$user->id}}">
+                      <td><input type="checkbox"  name="row_id" value="{{ $user->id }}"> </td>
                       <td>{{$index}}</td>
                       <td>{{$user->id}}</td>
                       <td>{{$user->name}}</td>
                       <td>{{$user->email}}</td>
                       <td>{{$user->role}}</td>
                       <td>{{$user->created_at}}</td>
-                      <td><span class="Actions"><a class="link" href="#"><i class="fa-solid fa-file-pen"></i></a>
-                              <a class="link" href="#"><i  class="fa-solid fa-trash-can Trash"></i></span>
+                      <td><span class="Actions"><a class="link" href="{{ route('users.edit', $user->id) }}"><i class="fa-solid fa-file-pen"></i></a>
+                              <form method="POST" action="{{ route('users.destroy', $user->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="Trash"><i  class="fa-solid fa-trash-can"></i></button>
+                              </form>
+                              </span>
                       </td>
                   </tr>
                   @php

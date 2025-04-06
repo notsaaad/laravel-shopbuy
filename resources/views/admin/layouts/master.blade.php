@@ -23,6 +23,17 @@
             <a href="{{ route('index') }}">Back To Site</a>
           </div>
           <header class="header">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+              <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+              <div class="offcanvas-body">
+                @include('admin.layouts.Aside')
+              </div>
+            </div>
             <h1 class="site-name">SHOP AND BUY</h1>
               <div class="header-right-side">
                 <span class="user-name">MR/{{Auth::user()->name}}</span>

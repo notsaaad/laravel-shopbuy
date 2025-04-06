@@ -66,3 +66,69 @@ $('.clear-btn').on('click', function(){
   $('table input[type="checkbox"]').prop('checked', false);
 });
 
+
+$.ajaxSetup({
+  headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+function DeleteALLCheckids(action, message){
+  let all_ids = [];
+  $('input:checkbox[name=row_id]:checked').each(function(){
+    all_ids.push($(this).val());
+  });
+
+  $.ajax({
+    type: "post",
+    url: action,
+    data: {
+      ids: all_ids,
+    },
+    success: function (response) {
+      $.each(all_ids, function(key, val){
+        $('#row_id'+val).remove();
+        toastr.options = {
+          "closeButton": true,
+          "newestOnTop": true,
+          "progressBar": true,
+          "showDuration": "100",
+          "preventDuplicates": false,
+          "hideDuration": "2500",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success(`Delete ${message} ${val}`);
+      });
+    },
+    error: function (response){
+      toastr.options = {
+        "closeButton": true,
+        "newestOnTop": true,
+        "progressBar": true,
+        "showDuration": "100",
+        "preventDuplicates": false,
+        "hideDuration": "2500",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+      toastr.error(`something went wrong`);
+    }
+  });
+
+}
+
+$('.Deletebtn-checks').on('click', function(){
+
+  let action = $(this).attr('action');
+  let message = $(this).attr('message');
+  DeleteALLCheckids(action, message);
+})

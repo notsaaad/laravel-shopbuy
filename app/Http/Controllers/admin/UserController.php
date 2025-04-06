@@ -29,6 +29,12 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'customerCount', 'adminCount', 'allCount'));
     }
 
+    function deleteAll(Request $request){
+      $ids = $request->ids;
+      User::whereIn('id', $ids)->delete();
+      return response()->json(["success"=>"users Deleted"]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -65,7 +71,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+      $user = User::findOrFail($id);
+      return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -81,6 +88,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+      $user = User::findOrFail($id);
+      $user->delete();
+
+      return back()->with(['success'=> "Delete User id $id successfuly"]);
     }
 }

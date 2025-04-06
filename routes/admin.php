@@ -23,3 +23,4 @@ Route::post('/product/post', [ProductsController::class, 'post'])->name('admin.p
 
 
 Route::resource('users', UserController::class);
+Route::post('/users/deleteAll', [UserController::class, 'deleteAll'])->name('admin.users.deleteAll');
