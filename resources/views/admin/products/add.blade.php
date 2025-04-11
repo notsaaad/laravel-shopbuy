@@ -20,9 +20,22 @@
         </div>
       </div>
       <div class="two-input">
-        <div class="input-div">
+        <div class="input-div w-half">
           <label for="sale_price" class="riq">Sale Price</label>
           <input type="number" id="sale_price" name="sale_price" placeholder="Sale Price">
+        </div>
+        <div class="input-div w-half">
+          <label for="cat" class="riq">Category</label>
+          <select name="cat" id="cat">
+            <option value="NULL">Select Product Cateogry </option>
+            @foreach ($categories as $cat )
+              <option value="{{ $cat->id }}">{{$cat->name}}</option>
+            @endforeach
+            @empty($categories)
+              <option value="NULL">-- Please Add Category --</option>
+            @endempty
+
+          </select>
         </div>
       </div>
       <div class="product_editor">

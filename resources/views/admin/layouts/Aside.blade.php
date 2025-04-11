@@ -19,6 +19,20 @@
     </li>
     {{--==================== End Products =============================  --}}
 
+    {{--==================== start category =============================  --}}
+    <li class="DropDown ">
+      <div class="list-content list-link link">
+        <div class="list-main-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="list-name">Category</div>
+        <i class="dropDown-icon fa-solid fa-sort-down"></i>
+      </div>
+      <ul class="submenu">
+        <a href="{{ route('category.create') }}" class="list-link link">Add</a>
+        <a href="{{ route('category.index') }}" class="list-link link">View</a>
+      </ul>
+    </li>
+    {{--==================== End category =============================  --}}
+
         {{--==================== start Users =============================  --}}
     <li class="DropDown ">
       <div class="list-content list-link link">

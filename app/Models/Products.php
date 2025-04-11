@@ -19,6 +19,7 @@ class Products extends Model
       'price',
       'sale',
       'image',
+      'category_id',
   ];
 
   /**
@@ -26,11 +27,17 @@ class Products extends Model
    *
    * @var array<int, string>
    */
+
+
   protected $hidden = [
       'created_at',
       'updated_at',
   ];
 
+  public function category()
+  {
+    return $this->belongsTo(Category::class);
+  }
 
   public $timestamps = true;
 }

@@ -519,6 +519,7 @@ td{
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5px;
 }
 .action_link a:hover{
   text-decoration: none;
@@ -665,6 +666,10 @@ form{
   width: 100%;
 }
 
+table form{
+  width: fit-content;
+}
+
 
 .two-input{
   display: flex;
@@ -699,3 +704,4 @@ form{
   align-items: center;
   padding:20px 0;
 }
+

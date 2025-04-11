@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductsController;
 
 
@@ -24,3 +25,8 @@ Route::post('/product/post', [ProductsController::class, 'post'])->name('admin.p
 
 Route::resource('users', UserController::class);
 Route::post('/users/deleteAll', [UserController::class, 'deleteAll'])->name('admin.users.deleteAll');
+
+
+
+Route::resource('category', CategoryController::class);
+Route::post('/category/deleteAll', [CategoryController::class, 'deleteAll'])->name('admin.category.deleteAll');

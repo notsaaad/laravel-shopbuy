@@ -27,7 +27,7 @@
         </div>
 
       </div>
-      <div class="two-input">
+      {{-- <div class="two-input">
         <div class="input-div w-half">
           <label for="password" class="riq">Password</label>
           <div class="password-with-icon">
@@ -47,7 +47,7 @@
             <small class="text-danger">{{$message}}</small>
           @enderror
         </div>
-      </div>
+      </div> --}}
 
       <div class="input-div">
         <label for="role" class="riq">Role</label>

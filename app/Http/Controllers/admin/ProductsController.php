@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Model;
+use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 class ProductsController extends Controller
 {
     function add(){
-      return view('admin.products.add');
+      $categories = Category::get();
+      return view('admin.products.add', compact('categories'));
     }
 
     function post(Request $request){
@@ -35,7 +37,8 @@ class ProductsController extends Controller
         'title' => $request->title,
         'price' => $request->price,
         'sale' => $request->sale_price,
-        'image'=> $path.$file_name
+        'image'=> $path.$file_name,
+        'category_id' => $request->cat,
       );
       Products::create($arr);
       return redirect()->route('admin.product.add')->with(['success'=> 'Product Added']);

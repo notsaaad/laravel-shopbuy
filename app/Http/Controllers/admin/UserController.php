@@ -80,7 +80,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        User::where('id', $id)->update([
+          'name'    => $request->user_username,
+          'email'   => $request->user_email,
+          'role'    => $request->role,
+        ]);
+
+        return redirect()->route('users.index')->with(['success'=> $request->user_username . ' updated (' . $id . ')' ]);
+
     }
 
     /**
