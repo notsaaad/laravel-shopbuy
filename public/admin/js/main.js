@@ -127,8 +127,181 @@ function DeleteALLCheckids(action, message){
 }
 
 $('.Deletebtn-checks').on('click', function(){
-
   let action = $(this).attr('action');
   let message = $(this).attr('message');
   DeleteALLCheckids(action, message);
 })
+
+
+
+function SetPublishALLCheckids(action, message){
+  let all_ids = [];
+  $('input:checkbox[name=row_id]:checked').each(function(){
+    all_ids.push($(this).val());
+  });
+
+  $.ajax({
+    type: "post",
+    url: action,
+    data: {
+      ids: all_ids,
+    },
+    success: function (response) {
+      $.each(all_ids, function(key, val){
+        $('#row_id'+val +' .Status').removeClass('SDraft');
+        $('#row_id'+val +' .Status').addClass('SPublish');
+        toastr.options = {
+          "closeButton": true,
+          "newestOnTop": true,
+          "progressBar": true,
+          "showDuration": "100",
+          "preventDuplicates": false,
+          "hideDuration": "2500",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success(`All ${message}  Set to Publish`);
+      });
+    },
+    error: function (response){
+      toastr.options = {
+        "closeButton": true,
+        "newestOnTop": true,
+        "progressBar": true,
+        "showDuration": "100",
+        "preventDuplicates": false,
+        "hideDuration": "2500",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+      toastr.error(`something went wrong`);
+    }
+  });
+
+}
+
+$('.setPublishbtn-checks').on('click', function(){
+  let action = $(this).attr('action');
+  let message = $(this).attr('message');
+  SetPublishALLCheckids(action, message);
+})
+
+function SetDraftALLCheckids(action, message){
+  let all_ids = [];
+  $('input:checkbox[name=row_id]:checked').each(function(){
+    all_ids.push($(this).val());
+  });
+
+  $.ajax({
+    type: "post",
+    url: action,
+    data: {
+      ids: all_ids,
+    },
+    success: function (response) {
+      $.each(all_ids, function(key, val){
+        $('#row_id'+val +' .Status').removeClass('SPublish');
+        $('#row_id'+val +' .Status').addClass('SDraft');
+        toastr.options = {
+          "closeButton": true,
+          "newestOnTop": true,
+          "progressBar": true,
+          "showDuration": "100",
+          "preventDuplicates": false,
+          "hideDuration": "2500",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success(`All ${message}  Set to Publish`);
+      });
+    },
+    error: function (response){
+      toastr.options = {
+        "closeButton": true,
+        "newestOnTop": true,
+        "progressBar": true,
+        "showDuration": "100",
+        "preventDuplicates": false,
+        "hideDuration": "2500",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+      toastr.error(`something went wrong`);
+    }
+  });
+
+}
+
+$('.setDrafthbtn-checks').on('click', function(){
+  let action = $(this).attr('action');
+  let message = $(this).attr('message');
+  SetDraftALLCheckids(action, message);
+})
+
+// ================================================ Start Handel File Uploading Image ================================
+
+const fileInput = document.getElementById('fileInput');
+if(fileInput){
+  const preview = document.getElementById('preview');
+  const previewImage = document.getElementById('previewImage');
+  const progressContainer = document.getElementById('progressContainer');
+  const progress = document.getElementById('progress');
+  const fileName = document.getElementById('fileName');
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length > 0) {
+      progressContainer.style.display = 'block';
+      progress.style.width = '0%';
+
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent += 10;
+        progress.style.width = percent + '%';
+
+        if (percent >= 100) {
+          clearInterval(interval);
+          progressContainer.style.display = 'none';
+
+          const file = fileInput.files[0];
+          fileName.textContent = file.name;
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            previewImage.src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+
+          preview.style.display = 'flex';
+        }
+      }, 200);
+    }
+  });
+
+  function removeFile() {
+    fileInput.value = '';
+    preview.style.display = 'none';
+    progressContainer.style.display = 'none';
+    progress.style.width = '0%';
+    previewImage.src = '';
+  }
+
+}
+
+
+// ================================================ End Handel File Uploading Image ================================

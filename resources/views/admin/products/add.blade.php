@@ -38,11 +38,21 @@
           </select>
         </div>
       </div>
-      <div class="product_editor">
+      <div class="product_editor upload-container">
         <div class="image-upload">
             <i class="fa-regular fa-image"></i>
-          <input  type="file" name="image" class="fileInput" accept="image/*" >
+          <input  type="file" name="image"id="fileInput" class="fileInput" accept="image/*" >
           <span class="Upload_image">Upload image</span>
+        </div>
+        <div id="progressContainer" class="progress-bar" style="display: none;">
+          <div id="progress" class="progress"></div>
+        </div>
+        <div id="preview" style="display: none;">
+          <div class="upload-preview">
+            <img id="previewImage" src="" alt="Preview">
+            <span id="fileName"></span>
+            <span class="remove-btn" onclick="removeFile()">X</span>
+          </div>
         </div>
       </div>
 

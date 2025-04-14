@@ -705,3 +705,57 @@ table form{
   padding:20px 0;
 }
 
+
+.upload-preview {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--secondry-color);
+  color: var(--color-semi-gray);
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+.upload-preview img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.remove-btn {
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #444;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 8px;
+  width: 0%;
+  background-color: #4caf50;
+  transition: width 0.5s ease;
+}
+
+.Status{
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.Status.SPublish{
+  background-color: green;
+}
+.Status.SDraft{
+  background-color: yellow;
+}

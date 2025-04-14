@@ -14,7 +14,7 @@
       </div>
       <ul class="submenu">
         <a href="{{ route('admin.product.add') }}" class="list-link link">Add</a>
-        <a href="#" class="list-link link">View</a>
+        <a href="{{ route('admin.products.index') }}" class="list-link link">View</a>
       </ul>
     </li>
     {{--==================== End Products =============================  --}}

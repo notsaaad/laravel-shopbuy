@@ -20,6 +20,13 @@ Route::get('/', [HomeController::class , 'index'])->name('admin.home');
 
 Route::get('/product/add', [ProductsController::class, 'add'])->name('admin.product.add');
 Route::post('/product/post', [ProductsController::class, 'post'])->name('admin.product.post');
+Route::get('/products', [ProductsController::class, 'index'])->name('admin.products.index');
+Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('admin.products.edit');
+Route::post('/products/postEdit/{id}', [ProductsController::class, 'postedit'])->name('admin.products.postedit');
+Route::post('/products/DeleteAll', [ProductsController::class, 'deleteAll'])->name('admin.products.deleteAll');
+Route::post('/product/Delete',[ProductsController::class, 'Delete'])->name('admin.products.delete');
+Route::post('/product/SetAllPublish',[ProductsController::class, 'SetAllPublish'])->name('admin.products.SetAllPublish');
+Route::post('/product/SetAllDraft',[ProductsController::class, 'SetAllDraft'])->name('admin.products.SetAllDraft');
 
 
 

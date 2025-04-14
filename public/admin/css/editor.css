@@ -11,20 +11,19 @@ main.Editor{
 }
 .product_editor{
   cursor: pointer;
-  display: flex;
+  /* display: flex; */
 }
 .product_editor i{
   font-size: 27px;
 }
 .image-upload{
-  box-sizing: border-box;
-  font-family: sans-serif;
+
   display: block;
   cursor: pointer;
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
   border: 2px dotted var(--link-color);
   width: 100%;
-  margin: 10px;
+  /* margin: 10px; */
   background-color: var(--font_table);
   position: relative;
   height: 200px;

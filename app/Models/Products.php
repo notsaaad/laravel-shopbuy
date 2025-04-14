@@ -19,7 +19,9 @@ class Products extends Model
       'price',
       'sale',
       'image',
+      'is_draft',
       'category_id',
+      'created_at',
   ];
 
   /**
@@ -30,7 +32,6 @@ class Products extends Model
 
 
   protected $hidden = [
-      'created_at',
       'updated_at',
   ];
 
