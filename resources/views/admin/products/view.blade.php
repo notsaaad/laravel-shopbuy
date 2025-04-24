@@ -108,7 +108,10 @@
                       <td>{{$product->price}}</td>
                       <td>{{$product->sale}}</td>
                       <td><img width="150" height="150" src="{{ URL::asset($product->image) }}" alt="something went wrong"></td>
-                      <td>{{$product->category->name}}</td>
+                      {{-- <td>{{$product->category->name}}</td> --}}
+                      <td>
+                        {{ $product->categories->pluck('name')->implode(', ') }}
+                      </td>
                       <td class="center">
                         @if ($product->is_draft == 0)
                           <span class="Status SPublish"></span>

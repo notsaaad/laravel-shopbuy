@@ -80,11 +80,22 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        User::where('id', $id)->update([
+          $request->validate([
+            'user_username' => 'required|string|max:255',
+            'user_email'    => 'required|email|max:255|unique:users,email,'.$id,
+            'role'          => 'required|string',
+            'user_password'      => 'nullable|string|confirmed', // يشمل التحقق من confirmation
+        ]);
+        $data = [
           'name'    => $request->user_username,
           'email'   => $request->user_email,
           'role'    => $request->role,
-        ]);
+        ];
+        if ($request->filled('password')) {
+          $data['password'] = $request->user_password;
+      }
+
+        User::where('id', $id)->update($data);
 
         return redirect()->route('users.index')->with(['success'=> $request->user_username . ' updated (' . $id . ')' ]);
 

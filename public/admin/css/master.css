@@ -150,17 +150,44 @@ a:hover::before{
  color: var(--color-semi-gray);
 }
 .input-div input,
-.input-div select{
+.input-div select,
+.input-div span.select2{
   width: 100%;
   height: 50px;
   border-radius: 8px;
- border: 2px solid var(--border-color);
- background: var(--secondry-color);
- color: var(--color-semi-gray);
- font-size: 18px;
- text-align: left;
- text-overflow: ellipsis;
+  border: 2px solid var(--border-color);
+  background: var(--secondry-color);
+  color: var(--color-semi-gray);
+  font-size: 18px;
+  text-align: left;
+  text-overflow: ellipsis;
   padding: 10px;
+}
+.input-div span.select2{
+  width: 100% !important;
+}
+.input-div span.select2-container--default{
+  padding: 0 !important;
+}
+.input-div span.select2-selection--multiple{
+  background-color: unset;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  padding-bottom: 10px;
+}
+.input-div .select2 .select2-search__field{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px;
+}
+.input-div .select2 .select2-selection__clear{
+  color: red;
+}
+.select2-container li{
+  color: black;
 }
 .input-div input:hover,
 .input-div select:hover,

@@ -209,11 +209,24 @@ a:hover{
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
 }
 .header-icons .cart i{
   color: var(--white_color);
 }
-
+.header-icons .cart .cart-count{
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  font-size: 14px;
+  background: red;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
 .header-icons .icon {
   width: 25px;
   height: 25px;
@@ -539,4 +552,11 @@ border-radius: 8px;
 
 .swal2-loader{
   display: none !important;
+}
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

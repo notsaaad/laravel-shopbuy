@@ -24,14 +24,18 @@
 
         @csrf
           <div class="input-group">
-              <input  class="form-control" type="email" name="email" placeholder="Email Address" required>
+              <input  class="form-control" type="text" name="email" placeholder="Email Address" required>
           </div>
-
+          @error('email')
+            <small class="text-danger">{{$message}}</small>
+          @enderror
           <div class="input-group">
             <div class="password-with-icon">
               <input type="password" class="form-control"  id="Password" class="password" name="password" placeholder="Your Password">
             </div>
-
+            @error('password')
+            <small class="text-danger">{{$message}}</small>
+          @enderror
           </div>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Category;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(SELF::Pagination_count);
+
+        $categories = Category::withCount('products')->paginate(self::Pagination_count);
+
         return view('admin.category.index', compact('categories'));
     }
 
@@ -37,14 +40,32 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
           'name' => 'required|unique:categories,name',
+          'image' => 'sometimes|nullable|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
-        Category::create([
-          'name' => $request->name
-        ]);
+        try{
+          $imagepath = 'default.jpg';
+          if($request->hasFile('image')){
+            $file = $request->file('image');
+            $exta = $file->getClientOriginalExtension();
+            $file_name  = time().  '.' . $exta;
+            $path       = "public/admin/images/categories/";
+            $file->move($path, $file_name);
+            $imagepath = $file_name;
+          }
 
-        return back()->with(['success'=> 'create Category']);
+
+          Category::create([
+            'name' => $request->name,
+            'image' => $imagepath
+          ]);
+
+          return back()->with(['success'=> 'create Category']);
+        }catch(\Exception $e ){
+          return back()->withErrors(['error' => 'حدث خطأ: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -61,7 +82,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
       $cat = Category::findOrFail($id);
-      
+
       return view('admin.category.edit', compact('cat'));
     }
 
@@ -71,10 +92,27 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
       $request->validate([
-        'name' => 'required|unique:categories,name',
+        'name' => 'required|unique:categories,name,'.$id,
       ]);
+      $imagepath = "default.jpg";
+      $category = Category::findOrFail($id);
+      $file_name =  $category->image;
+      if($request->hasFile('image')) {
+        if( $category->image && file_exists(  $category->image)  && $category->image != $imagepath){
+          $imageName = basename(  $category->image);
+          unlink(public_path('admin/categories/products/'.$imageName));
+        }
+        $file = $request->file('image');
+        $exta = $file->getClientOriginalExtension();
+        $file_name  = time().  '.' . $exta;
+        $path       = "public/admin/images/categories/";
+        $file->move($path, $file_name);
+        $imagepath = $file_name;
+      }
+
       Category::where('id', $id)->update([
         'name' => $request->name,
+        'image'=> $imagepath
       ]);
 
       return redirect()->route('category.index')->with(['success' => "Update Cateogry $id"]);

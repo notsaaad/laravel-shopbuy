@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="only-form">
-  <form action="{{ route('category.store') }}"  method="post" class="add_user">
+  <form action="{{ route('category.store') }}"  method="post" class="add_user"  enctype="multipart/form-data">
     @method('POST')
     @csrf
         <div class="input-div w-half">
@@ -17,6 +17,26 @@
             <small class="text-danger">{{$message}}</small>
           @enderror
         </div>
+        <div class="product_editor upload-container">
+          <div class="image-upload">
+              <i class="fa-regular fa-image"></i>
+            <input  type="file" name="image"id="fileInput" class="fileInput" accept="image/*" >
+            <span class="Upload_image">Upload image</span>
+          </div>
+          <div id="progressContainer" class="progress-bar" style="display: none;">
+            <div id="progress" class="progress"></div>
+          </div>
+          <div id="preview" style="display: none;">
+            <div class="upload-preview">
+              <img id="previewImage" src="" alt="Preview">
+              <span id="fileName"></span>
+              <span class="remove-btn" onclick="removeFile()">X</span>
+            </div>
+          </div>
+        </div>
+        @error('image')
+        <small class="text-danger">{{$message}}</small>
+        @enderror
       <button type="submit" >Add Category</button>
     </form>
 </div>

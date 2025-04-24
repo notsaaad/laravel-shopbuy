@@ -62,7 +62,20 @@
 
             <div class="header-icons">
                 <div class="cart">
-                    <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                  @php
+                    use Darryldecode\Cart\Facades\CartFacade as Cart;
+                    $cartCount = 0;
+                    if (auth()->check()) {
+                      $cart = Cart::session(auth()->id())->getContent();
+                      $cartCount = count($cart);
+                    }
+
+                  @endphp
+                    <a href="{{ route('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+                    @if ($cartCount != 0)
+                    <span title="cart count" class="cart-count">{{$cartCount}}</span>
+
+                    @endif
                 </div>
             </div>
           </div>

@@ -51,7 +51,9 @@
                         <th><input type="checkbox" name="ids" id="check_all_ids"></th>
                         <th>#</th>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
+                        <th>Count</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -61,9 +63,11 @@
 
                     <tr id="row_id{{$cat->id}}">
                       <td><input type="checkbox"  name="row_id" value="{{ $cat->id }}"> </td>
+                      <td><img src="{{ URL::asset('public/admin/images/categories/'.$cat->image) }}" alt="category image"></td>
                       <td>{{$index}}</td>
                       <td>{{$cat->id}}</td>
                       <td>{{$cat->name}}</td>
+                      <td>{{$cat->products_count}}</td>
                       <td>
                         <span class="Actions"><a class="link" href="{{ route('category.edit', $cat->id) }}"><i class="fa-solid fa-file-pen"></i></a>
                           <form method="POST" action="{{ route('category.destroy', $cat->id) }}">
@@ -80,7 +84,7 @@
                   @endforeach
                   @empty($categories)
                     <tr>
-                      <td colspan="5">No Category Found</td>
+                      <td colspan="6">No Category Found</td>
                     </tr>
                   @endempty
                 </tbody>

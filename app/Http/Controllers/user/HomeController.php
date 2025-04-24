@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,11 +11,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\user\newuserRequest;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class HomeController extends Controller
 {
   function home(){
-    return view('user.home');
+    $cartCount = 0;
+    $categories = Category::take(4)->get();
+    foreach ($categories as $cat) {
+      $products = Products::where('category_id', $cat->id)->get();
+      $count    = count($products);
+      $cat->count = $count;
+    }
+
+    if (auth()->check()) {
+      $cart = Cart::session(auth()->id())->getContent();
+      $cartCount = count($cart);
+    }
+
+
+    $products = Products::where('is_draft', 0)->take(6)->get();
+    return view('user.home', compact('categories', 'products', 'cartCount'));
   }
 
   function store(){
@@ -23,61 +40,4 @@ class HomeController extends Controller
 
 
 
-
-  function login(){
-    return view('user.login');
-  }
-
-  function postLogin(Request $request){
-    $credentials = $request->only('email', 'password');
-
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
-
-    $user = User::where('email', $credentials['email'])->first();
-    if ($user && Hash::check($credentials['password'], $user->password)) {
-        Auth::login($user);
-        return redirect()->route('index')->with(['success'=> 'Login Successfully']);
-    }
-
-    return back()->with(['error'=> 'Username or Password Wrong']);
-  }
-
-
-
-  function Signup(){
-    return view('user.signup');
-  }
-
-  function new_user(newuserRequest $request){
-
-    $data['name']       = $request->name;
-    $data['email']      = $request->email;
-    $data['password']   = $request->password;
-    $data['role']       = "customer";
-    $user = User::create($data);
-
-
-    if(!$user){
-      return redirect()->back()->with(['error' => 'something went wrong']);
-    }
-    $id   = $user->id;
-    Auth::loginUsingId($id);
-    return redirect()->route('index')->with(['success'=> 'Account Created']);
-  }
-
-
-  function logout(){
-    Auth::logout();
-    return redirect()->route('login')->with(['success'=> 'Logout  Successfully']);
-  }
-  function api_product(){
-    $products = Products::get();
-    for($i = 0; $i<count($products); $i++){
-      $products[$i]['image'] = route('index').'/'. $products[$i]['image'];
-    }
-    return response()->json($products);
-  }
 }

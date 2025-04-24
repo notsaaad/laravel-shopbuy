@@ -10,18 +10,18 @@
       <div class="icon">
         <i class="fa-solid fa-box"></i>
       </div>
-      <a href="#" class="link">Check your Order Status</a>
+      <a href="#" class="link">Check your Orders</a>
     </div>
     <div class="footer-section col-sm-12 col-md-6 col-lg-3">
       <div class="icon">
         <i class="fa-solid fa-right-left"></i>
       </div>
-      <a href="#" class="link">Returns & Exchanges</a>
+      <a href="#" class="link">Returns & Exchanges Policy</a>
     </div>
     <div class="footer-section col-sm-12 col-md-6 col-lg-3">
       <div class="icon">
         <i class="fa-solid fa-dollar-sign"></i></div>
-        <a href="#" class="link">Price Match Guarantee</a>
+        <a href="{{ route('store') }}" class="link">Our Store</a>
     </div>
   </div>
   <!-- End Footer Top -->
@@ -29,19 +29,21 @@
 
   <div class="footer-bottom row">
     <div class="footer-column col-sm-12 col-md-6 col-lg-3">
-      <h4>Order & Purchases</h4>
+      <h4>My Account</h4>
       <ul>
-        <li><a href="#">Check Order Status</a></li>
-        <li><a href="#">Shipping, Delivery & Pickup</a></li>
-        <li><a href="#">Returns & Exchanges</a></li>
-        <li><a href="#">Price Match Guarantee</a></li>
-        <li><a href="#">Product Recalls</a></li>
-        <li><a href="#">Trade-in Program</a></li>
-        <li><a href="#">Gift Cards</a></li>
+        @auth
+        <li><a href="#">My Account Page</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="{{ route('logout') }}">Log Out</a></li>
+        @endauth
+        @guest
+        <li><a href="{{ route('login') }}">Login</a></li>
+        <li><a href="{{ route('Signup') }}">Sign Up</a></li>
+        @endguest
       </ul>
     </div>
     <div class="footer-column col-sm-12 col-md-6 col-lg-3">
-      <h4>Support & Services</h4>
+      <h4>Categories</h4>
       <ul>
         <li><a href="#">Visit our Support Center</a></li>
         <li><a href="#">Contact with an Expert</a></li>
@@ -49,27 +51,21 @@
         <li><a href="#">Manage an Appointment</a></li>
         <li><a href="#">Protection & Support Plans</a></li>
         <li><a href="#">Haul Away & Recycling</a></li>
-        <li><a href="#">Contact Us</a></li>
       </ul>
     </div>
 
     <div class="footer-column col-sm-12 col-md-6 col-lg-3">
       <h4>About Best Buy</h4>
       <ul>
-        <li><a href="#">corporate information</a></li>
-        <li><a href="#">careers</a></li>
-        <li><a href="#">corporate responsibility</a></li>
+        <li><a href="{{ route('store') }}">Store</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Policy & Privacy</a></li>
       </ul>
     </div>
 
     <div class="footer-column col-sm-12 col-md-6 col-lg-3  footer-Email">
-      <span class="footer-sgin-in"><a href="#">Sign in or Create Account</a></span>
-      <hr>
-      <div class="form-footer-container">
-        <h4>Get the latest deals</h4>
-        <input type="email" placeholder="Enter email address" />
-        <button class="btn btn-primary">Sign Up</button>
-      </div>
+      <span class="footer-sgin-in"><a href="{{ route('Signup') }}">Log in or Create Account</a></span>
+
       <hr>
       <div class="social-icon">
         <div class="iicon">

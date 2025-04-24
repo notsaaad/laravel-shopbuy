@@ -34,7 +34,7 @@
             <div class="col-md-3 feature-item">
                 <i class="bi bi-truck"></i>
                 <h6 class="mt-3">Free shipping</h6>
-                <p class="text-muted">When you spend $80 or more</p>
+                <p class="text-muted">Your Shipping is free</p>
             </div>
             <div class="col-md-3 feature-item">
                 <i class="bi bi-headset"></i>
@@ -55,63 +55,14 @@
     </div>
 
 
-    <!-- Section 2: Product Categories -->
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Product Categories</h2>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            <!-- Air Conditioner -->
-            <div class="col">
-                <div class="card text-center border-0">
-                    <img src="{{ URL::asset('public/user/images/10.jpeg') }}" alt="Air Conditioner"
-                        class="card-img-top mx-auto mt-3" style="width: 120px;">
-                    <div class="card-body">
-                        <h6 class="card-title">AIR CONDITIONER</h6>
-                        <p class="card-text text-muted">4 PRODUCTS</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Audio & Video -->
-            <div class="col">
-                <div class="card text-center border-0">
-                    <img src="{{ URL::asset('public/user/images/11.jpeg') }}" alt="Audio & Video"
-                        class="card-img-top mx-auto mt-3" style="width: 120px;">
-                    <div class="card-body">
-                        <h6 class="card-title">AUDIO & VIDEO</h6>
-                        <p class="card-text text-muted">5 PRODUCTS</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Gadgets -->
-            <div class="col">
-                <div class="card text-center border-0">
-                    <img src="{{ URL::asset('public/user/images/12.jpeg') }}" alt="Gadgets"
-                        class="card-img-top mx-auto mt-3" style="width: 120px;">
-                    <div class="card-body">
-                        <h6 class="card-title">GADGETS</h6>
-                        <p class="card-text text-muted">6 PRODUCTS</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Home Appliances -->
-            <div class="col">
-                <div class="card text-center border-0">
-                    <img src="{{ URL::asset('public/user/images/13.jpeg') }}" alt="Home Appliances"
-                        class="card-img-top mx-auto mt-3" style="width: 120px;">
-                    <div class="card-body">
-                        <h6 class="card-title">HOME APPLIANCES</h6>
-                        <p class="card-text text-muted">5 PRODUCTS</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
     <div class="container mt-5">
+      <h2 class="text-center mb-4">Our Categories</h2>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <!-- Air Conditioner -->
-            <div class="col">
+            {{-- <div class="col">
                 <div class="card text-center border-0">
                     <img src="{{ URL::asset('public/user/images/14.jpeg') }}" alt="Air Conditioner"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
@@ -120,9 +71,9 @@
                         <p class="card-text text-muted">4 PRODUCTS</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- Audio & Video -->
-            <div class="col">
+            {{-- <div class="col">
                 <div class="card text-center border-0">
                     <img src="{{ URL::asset('public/user/images/15.jpeg') }}" alt="Audio & Video"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
@@ -131,9 +82,9 @@
                         <p class="card-text text-muted">5 PRODUCTS</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- Gadgets -->
-            <div class="col">
+            {{-- <div class="col">
                 <div class="card text-center border-0">
                     <img src="{{ URL::asset('public/user/images/16.jpeg') }}" alt="Gadgets"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
@@ -142,9 +93,24 @@
                         <p class="card-text text-muted">6 PRODUCTS</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- Home Appliances -->
-            <div class="col">
+            @foreach ( $categories as $cat )
+              <div class="col" >
+                  <div class="card text-center border-1 shadow" >
+                      <img src="{{ URL::asset('public/admin/images/categories/'.$cat->image) }}" alt="{{ $cat->name }}"
+                          class="card-img-top mx-auto mt-3" style="width: 120px;">
+                      <div class="card-body">
+                          <h6 class="card-title">{{$cat->name}}</h6>
+                          <p class="card-text text-muted">{{$cat->count}}</p>
+                      </div>
+                  </div>
+              </div>
+            @endforeach
+            @empty($categories)
+              <p class="text-center">No Category Found</p>
+            @endempty
+            {{-- <div class="col">
                 <div class="card text-center border-0">
                     <img src="{{ URL::asset('public/user/images/17.jpeg') }}" alt="Home Appliances"
                         class="card-img-top mx-auto mt-3" style="width: 120px;">
@@ -153,7 +119,7 @@
                         <p class="card-text text-muted">5 PRODUCTS</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -161,7 +127,7 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Today's Best Deal</h2>
         <div class="row row-cols-1 row-cols-md-4 g-4">
-            <!-- Product 1 -->
+            {{-- <!-- Product 1 -->
             <div class="col">
                 <div class="card h-100 position-relative">
                     <img src="{{ URL::asset('public/user/images/17.jpeg') }}" class="card-img-top" alt="Product 1">
@@ -245,10 +211,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
-            <div class="col">
+            {{-- <div class="col">
                 <div class="card h-100 position-relative">
                     <img src="{{ URL::asset('public/user/images/13.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
@@ -260,9 +226,36 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> --}}
+            @foreach ( $products as $product )
             <div class="col">
+                <div class="card h-100 position-relative">
+                      <img src="{{ URL::asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ $product->title }}</h5>
+                          <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-decoration-line-through">
+                                @if ($product->price)
+                                {{ $product->price}} $
+                                @endif
+                            </span>
+                              <span class="text-primary fw-bold">{{$product->sale}} $</span>
+                          </div>
+                          <form method="POST" action="{{ route('add_product') }}">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="quantity" value="1" min="1">
+                            <div class="center mt-2 mb-2"><button type="submit" class="btn btn-primary">Add to Cart</button></div>
+                        </form>
+                      </div>
+                </div>
+              </div>
+            @endforeach
+            @empty($products)
+            <p class="text-center">No Product Found</p>
+            @endempty
+            {{-- <div class="col">
                 <div class="card h-100 position-relative">
                     <img src="{{ URL::asset('public/user/images/14.jpeg') }}" class="card-img-top" alt="Product 2">
                     <div class="card-body">
@@ -274,7 +267,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="container py-5">

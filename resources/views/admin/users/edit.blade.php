@@ -6,6 +6,9 @@
 @endsection
 
 @section('content')
+  @if (Auth::id() == $user->id)
+    <h3>My Account</h3>
+  @endif
 <div class="only-form">
   <form action="{{ route('users.update', $user->id) }}"  method="post" class="add_user">
     @method('put')
@@ -27,11 +30,13 @@
         </div>
 
       </div>
-      {{-- <div class="two-input">
+      @if (Auth::id() == $user->id)
+      <div class="two-input">
         <div class="input-div w-half">
           <label for="password" class="riq">Password</label>
           <div class="password-with-icon">
-            <input autocomplete="off" value="{{ old('user_password') ?? $user->password }}" type="password" id="Password" class="password"  name="user_password" placeholder="Enter Password">
+
+            <input autocomplete="off" value="{{ old('user_password')}}" type="password" id="Password" class="password"  name="user_password" placeholder="Enter Password">
           </div>
           @error('user_password')
             <small class="text-danger">{{$message}}</small>
@@ -41,13 +46,15 @@
         <div class="input-div w-half">
           <label for="conf-password" class="riq">Confrim Password</label>
           <div class="password-with-icon">
-            <input autocomplete="off" value="{{ old('conf_password') ?? $user->password }}" type="password" id="conf_password" class="password"  name="conf_password" placeholder="Confrim the Password">
+            <input autocomplete="off" value="{{ old('password_confirmation')}}" type="password" id="password_confirmation" class="password_confirmation"  name="password_confirmation" placeholder="Confrim the Password">
           </div>
-          @error('conf_password')
+          @error('password_confirmation')
             <small class="text-danger">{{$message}}</small>
           @enderror
         </div>
-      </div> --}}
+      </div>
+      @endif
+
 
       <div class="input-div">
         <label for="role" class="riq">Role</label>

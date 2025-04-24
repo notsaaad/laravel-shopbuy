@@ -26,8 +26,8 @@
         </div>
         <div class="input-div w-half">
           <label for="cat" class="riq">Category</label>
-          <select name="cat" id="cat">
-            <option value="NULL">Select Product Cateogry </option>
+          <select name="categories[]" id="categories" multiple>
+            {{-- <option value="NULL">Select Product Cateogry </option> --}}
             @foreach ($categories as $cat )
               <option value="{{ $cat->id }}">{{$cat->name}}</option>
             @endforeach
@@ -59,4 +59,15 @@
       <button type="submit" >Add Product</button>
     </form>
 </div>
+@stop
+
+@section('js')
+<script>
+  $(document).ready(function() {
+      $('#categories').select2({
+          placeholder: "Choose Categories",
+          allowClear: true
+      });
+  });
+</script>
 @stop

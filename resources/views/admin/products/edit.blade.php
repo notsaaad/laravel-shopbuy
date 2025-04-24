@@ -35,20 +35,19 @@
         </div>
         <div class="input-div w-half">
           <label for="cat" class="riq">Category</label>
-          <select name="cat" id="cat">
-            <option value="NULL">Select Product Cateogry </option>
-            @foreach ($categories as $cat)
-            <option value="{{ $cat->id }}" {{ old('cat', $product->category_id) == $cat->id ? 'selected' : '' }}>
-                {{ $cat->name }}
-            </option>
+          <select name="categories[]" id="categories" multiple>
+            @foreach ($categories as $category)
+            <option value="{{ $category->id }}"
+              {{ in_array($category->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '' }}>
+              {{ $category->name }}
+          </option>
+
         @endforeach
 
-        @empty($categories)
-            <option value="NULL">-- Please Add Category --</option>
-        @endempty
+
 
           </select>
-          @error('cat')
+          @error('categories')
             <small class="text-danger">{{$message}}</small>
           @enderror
         </div>
@@ -85,4 +84,16 @@
       <button type="submit" >Update Product</button>
     </form>
 </div>
+@stop
+
+
+@section('js')
+<script>
+  $(document).ready(function() {
+      $('#categories').select2({
+          placeholder: "Choose Categories",
+          allowClear: true
+      });
+  });
+</script>
 @stop

@@ -26,8 +26,9 @@ class editRequest extends FormRequest
           'price'     => 'required',
           'sale'      => 'required',
           'statue'    => 'required',
-          'cat'       => 'required',
           'image'     => 'mimes:png,jpg,jpeg,webp',
+          'categories' => 'required|array',
+          'categories.*' => 'exists:categories,id',
         ];
     }
 }

@@ -26,7 +26,8 @@ class ProductsController extends Controller
           $draftCount++;
         }
       }
-      $products    = Products::paginate(SELF::Pagination_count);
+      $products    = Products::with('categories')->paginate(SELF::Pagination_count);
+      // return $products;
       return view('admin.products.view', compact('allCount', 'publishCount', 'draftCount', 'products' ));
     }
 
@@ -37,16 +38,23 @@ class ProductsController extends Controller
       return view('admin.products.add', compact('categories'));
     }
 
+
+
     function post(Request $request){
       $validator = Validator::make($request->all(), [
         'title'     => 'required',
         'price'     => 'required',
         'sale_price'=> 'required',
         'image'     => 'required|mimes:png,jpg,jpeg,webp',
+        'categories' => 'required|array',
+        'categories.*' => 'exists:categories,id',
       ]);
+
+
       if ($validator->fails()) {
         return redirect()->back()->with(['error' => "Something Went Wrong"]);
       }
+
       $file = $request->file('image');
       $exta = $file->getClientOriginalExtension();
       $file_name  = time().  '.' . $exta;
@@ -58,9 +66,11 @@ class ProductsController extends Controller
         'price' => $request->price,
         'sale' => $request->sale_price,
         'image'=> $path.$file_name,
-        'category_id' => $request->cat,
       );
-      Products::create($arr);
+
+      $product = Products::create($arr);
+      $product->categories()->sync($request->categories);
+
       return redirect()->route('admin.product.add')->with(['success'=> 'Product Added']);
     }
 
@@ -99,15 +109,19 @@ class ProductsController extends Controller
       return view('admin.products.edit', compact('product', 'categories'));
     }
 
+
+
     function postedit(editRequest $request, string $id){
 
+
+
       $product = Products::findOrFail($id);
+
       $file_name = $product->image;
       if($request->hasFile('image')) {
         if($product->image && file_exists( $product->image)){
           $imageName = basename($product->image);
           unlink(public_path('admin/images/products/'.$imageName));
-
         }
 
         $file = $request->file('image');
@@ -123,10 +137,11 @@ class ProductsController extends Controller
         'title' => $request->title,
         'price' => $request->price,
         'sale' => $request->sale,
-        'category_id' => $request->cat,
         'is_draft' => $request->statue,
         'image' => $file_name,
       ]);
+
+      $product->categories()->sync($request->categories);
 
       return redirect()->route('admin.products.index')->with(['success'=> "updated Product id:$id"]);
     }
