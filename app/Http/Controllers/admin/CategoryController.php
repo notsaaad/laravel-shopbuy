@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Category;
-use App\Models\Products;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -48,12 +48,8 @@ class CategoryController extends Controller
         try{
           $imagepath = 'default.jpg';
           if($request->hasFile('image')){
-            $file = $request->file('image');
-            $exta = $file->getClientOriginalExtension();
-            $file_name  = time().  '.' . $exta;
-            $path       = "public/admin/images/categories/";
-            $file->move($path, $file_name);
-            $imagepath = $file_name;
+            $path       = CategoryImagePath();
+            $imagepath   = uploadImage($request->image, $path);
           }
 
 
@@ -100,14 +96,11 @@ class CategoryController extends Controller
       if($request->hasFile('image')) {
         if( $category->image && file_exists(  $category->image)  && $category->image != $imagepath){
           $imageName = basename(  $category->image);
-          unlink(public_path('admin/categories/products/'.$imageName));
+          $oldPath = 'admin/categories/products/'.$imageName;
+          DeleteImage($oldPath);
         }
-        $file = $request->file('image');
-        $exta = $file->getClientOriginalExtension();
-        $file_name  = time().  '.' . $exta;
-        $path       = "public/admin/images/categories/";
-        $file->move($path, $file_name);
-        $imagepath = $file_name;
+        $categoryPath = CategoryImagePath();
+        $imagepath     = uploadImage($request->image, $categoryPath);
       }
 
       Category::where('id', $id)->update([
@@ -126,7 +119,6 @@ class CategoryController extends Controller
     {
       $Category = Category::findOrFail($id);
       $Category->delete();
-
       return back()->with(['success'=> "Deleted Categroy  $id successfuly"]);
     }
 }

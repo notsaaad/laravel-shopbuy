@@ -9,7 +9,7 @@
     <li class="DropDown ">
       <div class="list-content list-link link">
         <div class="list-main-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-        <div class="list-name">Products</div>
+        <div class="list-name">Product</div>
         <i class="dropDown-icon fa-solid fa-sort-down"></i>
       </div>
       <ul class="submenu">
@@ -33,11 +33,25 @@
     </li>
     {{--==================== End category =============================  --}}
 
+        {{--==================== start Attributes =============================  --}}
+        <li class="DropDown ">
+          <div class="list-content list-link link">
+            <div class="list-main-icon"><i class="fa-solid fa-box-archive"></i></div>
+            <div class="list-name">Attribute</div>
+            <i class="dropDown-icon fa-solid fa-sort-down"></i>
+          </div>
+          <ul class="submenu">
+            <a href="{{ route('attribute.add') }}" class="list-link link">Add</a>
+            <a href="{{ route('attribute.index') }}" class="list-link link">View</a>
+          </ul>
+        </li>
+        {{--==================== End Attributes =============================  --}}
+
         {{--==================== start Users =============================  --}}
     <li class="DropDown ">
       <div class="list-content list-link link">
         <div class="list-main-icon"><i class="fa-solid fa-users"></i></div>
-        <div class="list-name">Users</div>
+        <div class="list-name">User</div>
         <i class="dropDown-icon fa-solid fa-sort-down"></i>
       </div>
       <ul class="submenu">

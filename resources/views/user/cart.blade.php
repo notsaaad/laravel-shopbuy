@@ -27,7 +27,7 @@
                   <div class="cart-item">
                     <a  href="{{ route('cart_remove', $item->id) }}" class="removeProduct">X</a>
                       <div class="product-info">
-                          <img src="{{ URL::asset($item->image) }}" alt="img">
+                          <img src="{{ URL::asset(ProductImagePath(). $item->image) }}" alt="img">
                           <p class="product-name"><strong>{{$item->title}}</strong></p>
                       </div>
                       <div class="product-controls">

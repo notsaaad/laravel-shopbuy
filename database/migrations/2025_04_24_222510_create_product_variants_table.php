@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-          $table->boolean('is_draft')->default(0);
+        Schema::create('product_variants', function (Blueprint $table) {
+          $table->id();
+          $table->foreignId('product_id')->constrained()->onDelete('cascade');
+          $table->integer('stock')->default(0);
+          $table->string('image_path')->nullable();
+          $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-          $table->dropColumn('is_draft');
-        });
+        Schema::dropIfExists('product_variants');
     }
 };

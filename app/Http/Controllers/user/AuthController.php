@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Models\Products;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +20,7 @@ class AuthController extends Controller
   }
 
 
-  
+
   function postLogin(Request $request){
 
     $credentials = $request->only('email', 'password');
@@ -68,7 +68,7 @@ class AuthController extends Controller
     return redirect()->route('login')->with(['success'=> 'Logout  Successfully']);
   }
   function api_product(){
-    $products = Products::get();
+    $products = Product::get();
     for($i = 0; $i<count($products); $i++){
       $products[$i]['image'] = route('index').'/'. $products[$i]['image'];
     }

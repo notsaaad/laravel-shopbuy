@@ -98,11 +98,11 @@
             @foreach ( $categories as $cat )
               <div class="col" >
                   <div class="card text-center border-1 shadow" >
-                      <img src="{{ URL::asset('public/admin/images/categories/'.$cat->image) }}" alt="{{ $cat->name }}"
+                      <img src="{{ URL::asset(CategoryImagePath().$cat->image) }}" alt="{{ $cat->name }}"
                           class="card-img-top mx-auto mt-3" style="width: 120px;">
                       <div class="card-body">
                           <h6 class="card-title">{{$cat->name}}</h6>
-                          <p class="card-text text-muted">{{$cat->count}}</p>
+                          <p class="card-text text-muted">{{$cat->products_count}}</p>
                       </div>
                   </div>
               </div>
@@ -230,7 +230,7 @@
             @foreach ( $products as $product )
             <div class="col">
                 <div class="card h-100 position-relative">
-                      <img src="{{ URL::asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                      <img src="{{ URL::asset(ProductImagePath().$product->image) }}" class="card-img-top" alt="{{ $product->name }}">
                       <div class="card-body">
                           <h5 class="card-title">{{ $product->title }}</h5>
                           <p class="card-text text-muted">Compact size with Alexa Voice Control</p>

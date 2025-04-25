@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductsController;
+use App\Http\Controllers\admin\AttributeController;
 
 
 Route::get('/', [HomeController::class , 'index'])->name('admin.home');
@@ -27,6 +28,10 @@ Route::post('/products/DeleteAll', [ProductsController::class, 'deleteAll'])->na
 Route::post('/product/Delete',[ProductsController::class, 'Delete'])->name('admin.products.delete');
 Route::post('/product/SetAllPublish',[ProductsController::class, 'SetAllPublish'])->name('admin.products.SetAllPublish');
 Route::post('/product/SetAllDraft',[ProductsController::class, 'SetAllDraft'])->name('admin.products.SetAllDraft');
+Route::get('/product/getAllAttributs',[ProductsController::class, 'GetAllAttributs'] )->name('admin.products.GetAllAttributs');
+Route::get('/product/getAllAttributsValues/{id}',[ProductsController::class, 'GetAllAttributsvalues'] )->name('admin.products.GetAllAttributsValues');
+
+
 
 
 
@@ -35,5 +40,32 @@ Route::post('/users/deleteAll', [UserController::class, 'deleteAll'])->name('adm
 
 
 
+
+
 Route::resource('category', CategoryController::class);
 Route::post('/category/deleteAll', [CategoryController::class, 'deleteAll'])->name('admin.category.deleteAll');
+
+
+
+
+
+Route::prefix('attribute')->controller(AttributeController::class)->group(function(){
+  Route::get('/', 'index')->name('attribute.index');
+  Route::get('/add', 'add')->name('attribute.add');
+  Route::post('/save', 'store')->name('attribute.store');
+  Route::delete('/destroy/{id}', 'destroy')->name('attribute.destroy');
+  Route::post('/DeleteAttAll', 'DeleteAllAtt')->name('attributes.DeleteALL');
+  Route::get('edit/{id}', 'Edit')->name('Attribut.edit');
+  Route::post('/post_edit/{id}', 'post_edit_att')->name('attribute.post_edit');
+  // ================= Start Attributes values =========
+
+    Route::get('/values/{id}', 'att_value_show')->name('att-values.view'); //$att id
+    Route::get('/value-add/{id}', 'att_value_add')->name('att_values.add');
+    Route::post('/value-post/{id}', 'store_value_add')->name('att_value_store');
+    Route::delete('/value-delete/{id}', 'delete_value')->name('att_value_delete');
+    Route::get('/value-edit/{id}', 'edit_page')->name('att_value_edit');
+    Route::post('/value_post_edit/{id}', 'update_att_value')->name('att_update_value');
+    Route::post('/DeleteALLValues', 'DeleteALLValues')->name('att_value_delete_all');
+  // ================= End Attributes values ===========
+});
+

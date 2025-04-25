@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->double('price');
             $table->double('sale');
-            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->boolean('is_draft')->default(0);
+            $table->enum('type', ['simple', 'variant'])->default('simple');
             $table->string('image');
             $table->timestamps();
         });

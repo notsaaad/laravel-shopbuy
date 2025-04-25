@@ -107,7 +107,7 @@
                       <td>{{$product->title}}</td>
                       <td>{{$product->price}}</td>
                       <td>{{$product->sale}}</td>
-                      <td><img width="150" height="150" src="{{ URL::asset($product->image) }}" alt="something went wrong"></td>
+                      <td><img width="150" height="150" src="{{ URL::asset(ProductImagePath().$product->image) }}" alt="something went wrong"></td>
                       {{-- <td>{{$product->category->name}}</td> --}}
                       <td>
                         {{ $product->categories->pluck('name')->implode(', ') }}

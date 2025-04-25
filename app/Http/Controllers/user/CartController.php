@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Models\User;
-use App\Models\Products;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class CartController extends Controller
           'product_id' => 'required|exists:products,id',
           'quantity' => 'required|integer|min:1'
       ]);
-      $product = Products::findOrFail($request->product_id);
+      $product = Product::findOrFail($request->product_id);
 
 
       $sessionKey = auth()->check() ? auth()->id() : session()->getId();

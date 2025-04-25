@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-          Schema::table('products', function (Blueprint $table) {
-            $table->enum('type', ['simple', 'variant'])->default('simple');
-        });
+        Schema::create('attributes', function (Blueprint $table) {
+          $table->id();
+          $table->string('name');
+          $table->enum('display_type', ['text', 'color', 'image'])->default('text');
+          $table->timestamps();
         });
     }
 
@@ -23,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('attributes');
     }
 };
