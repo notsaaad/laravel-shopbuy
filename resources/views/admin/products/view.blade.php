@@ -84,11 +84,12 @@
                         <th><input type="checkbox" name="ids" id="check_all_ids"></th>
                         <th>#</th>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Sale Price</th>
-                        <th>Image</th>
                         <th>Category</th>
+                        <th>Type</th>
                         <th>Status</th>
                         <th>Created At</th>
                     </tr>
@@ -104,20 +105,22 @@
                       <td><input type="checkbox"  name="row_id" value="{{ $product->id }}"> </td>
                       <td>{{$index}}</td>
                       <td>{{$product->id}}</td>
+                      <td><img width="150" height="150" src="{{ URL::asset(ProductImagePath().$product->image) }}" alt="something went wrong"></td>
                       <td>{{$product->title}}</td>
                       <td>{{$product->price}}</td>
                       <td>{{$product->sale}}</td>
-                      <td><img width="150" height="150" src="{{ URL::asset(ProductImagePath().$product->image) }}" alt="something went wrong"></td>
-                      {{-- <td>{{$product->category->name}}</td> --}}
                       <td>
                         {{ $product->categories->pluck('name')->implode(', ') }}
                       </td>
-                      <td class="center">
-                        @if ($product->is_draft == 0)
+                      <td>{{$product->type}}</td>
+                      <td>
+                        <div class="center">
+                          @if ($product->is_draft == 0)
                           <span class="Status SPublish"></span>
                         @else
                         <span class="Status SDraft"></span>
                         @endif
+                        </div>
                       </td>
                       <td>
                         <span class="Actions">

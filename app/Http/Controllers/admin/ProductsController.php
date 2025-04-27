@@ -8,7 +8,9 @@ use App\Models\Category;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
+use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
+use App\Models\VariantAttributeValue;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\admin\product\editRequest;
 
@@ -43,32 +45,96 @@ class ProductsController extends Controller
 
 
     function post(Request $request){
-      $validator = Validator::make($request->all(), [
-        'title'     => 'required',
-        'price'     => 'required',
-        'sale_price'=> 'required',
-        'image'     => 'required|mimes:png,jpg,jpeg,webp',
+      // return $request;
+
+      $rules = [
+        'title' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'sale' => 'required|numeric|min:0',
+        'image' => 'required|mimes:png,jpg,jpeg,webp',
         'categories' => 'required|array',
         'categories.*' => 'exists:categories,id',
-      ]);
+        'type' => 'required|in:simple,variant',
+      ];
 
+      if ($request->type == 'variant') {
+        $rules['attribute_values'] = 'required|array|min:1';
 
-      if ($validator->fails()) {
-        return redirect()->back()->with(['error' => "Something Went Wrong"]);
+        foreach ($request->input('attribute_values', []) as $attrId => $values) {
+            $rules["attribute_values.$attrId"] = 'required|array|min:1';
+            $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
+        }
+
+        $rules['variants'] = 'required|array|min:1';
+
+        foreach ($request->input('variants', []) as $index => $variant) {
+            $rules["variants.$index.attributes"] = 'required|array|min:1';
+            $rules["variants.$index.attributes.*"] = 'exists:attribute_values,id';
+            $rules["variants.$index.stock"] = 'required|numeric|min:0';
+        }
       }
 
-      $path = ProductImagePath();
+      $validator = Validator::make($request->all(), $rules);
 
-      $file_name = uploadImage($request->image, $path );
-      $arr = array(
-        'title' => $request->title,
-        'price' => $request->price,
-        'sale' => $request->sale_price,
-        'image'=> $file_name,
-      );
+      if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+      }
 
-      $product = Product::create($arr);
+      $product = new Product();
+      $product->title         = $request->title;
+      $product->price         = $request->price;
+      $product->sale          = $request->sale;
+      $product->type          = $request->type;
+      $product->description   = $request->description;
+
+      if ($request->hasFile('image')) {
+        $path = ProductImagePath();
+        $file_name = uploadImage($request->image, $path );
+        $product->image = $file_name;
+      }
+
+      $product->save();
+
       $product->categories()->sync($request->categories);
+
+      if ($product->type == 'variant' && isset($request->variants)) {
+          foreach ($request->variants as $variantData) {
+              $variant = new ProductVariant();
+              $variant->product_id = $product->id;
+              $variant->stock = $variantData['stock'];
+              $variant->save();
+
+              // تعديل بسيط هنا:
+              $attributeValueIds = is_array($variantData['attributes'])
+                  ? $variantData['attributes']
+                  : explode(',', $variantData['attributes'][0]); // في حالة إنها String داخل Array.
+
+              foreach ($attributeValueIds as $attrValId) {
+                  VariantAttributeValue::create([
+                      'variant_id' => $variant->id,
+                      'attribute_value_id' => $attrValId,
+                  ]);
+              }
+          }
+      }
+
+
+      // if ($validator->fails()) {
+      //   return redirect()->back()->with(['error' => "Something Went Wrong"]);
+      // }
+
+      // $path = ProductImagePath();
+
+      // $file_name = uploadImage($request->image, $path );
+      // $arr = array(
+      //   'title' => $request->title,
+      //   'price' => $request->price,
+      //   'sale' => $request->sale_price,
+      //   'image'=> $file_name,
+      // );
+
+      // $product = Product::create($arr);
+      // $product->categories()->sync($request->categories);
 
       return redirect()->route('admin.product.add')->with(['success'=> 'Product Added']);
     }
@@ -103,9 +169,12 @@ class ProductsController extends Controller
     }
 
     function Edit(string $id){
-      $product = Product::findOrFail($id);
+      // $product = Product::findOrFail($id);
       $categories = Category::get();
-      return view('admin.products.edit', compact('product', 'categories'));
+      $product = Product::with(['categories', 'variants.attributeValues.attribute'])->findOrFail($id);
+      // return $product;
+      $attributes = Attribute::with('values')->get();
+      return view('admin.products.edit', compact('product', 'attributes', 'categories'));
     }
 
 
@@ -114,29 +183,98 @@ class ProductsController extends Controller
 
 
 
+      // $product = Product::findOrFail($id);
+
+      // $file_name = $product->image;
+      // if($request->hasFile('image')) {
+      //   if($product->image && file_exists( $product->image)){
+      //     $imageName = basename($product->image);
+      //     $path = 'admin/images/products/'.$imageName;
+      //     DeleteImage($path);
+      //   }
+      //   $productFilePath = ProductImagePath();
+      //   $file_name = uploadImage($request->file, $productFilePath);
+      //   }
+
+
+      // $product->update([
+      //   'title' => $request->title,
+      //   'price' => $request->price,
+      //   'sale' => $request->sale,
+      //   'is_draft' => $request->statue,
+      //   'image' => $file_name,
+      // ]);
+
+      // $product->categories()->sync($request->categories);
+
+
       $product = Product::findOrFail($id);
 
-      $file_name = $product->image;
-      if($request->hasFile('image')) {
-        if($product->image && file_exists( $product->image)){
-          $imageName = basename($product->image);
-          $path = 'admin/images/products/'.$imageName;
-          DeleteImage($path);
+    $rules = [
+        'title' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'sale' => 'required|numeric|min:0',
+        'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+        'categories' => 'required|array',
+        'categories.*' => 'exists:categories,id',
+        'statue' => 'required|in:0,1',
+    ];
+
+    if ($product->type === 'variant') {
+        $rules['attribute_values'] = 'required|array|min:1';
+
+        foreach ($request->input('attribute_values', []) as $attrId => $values) {
+            $rules["attribute_values.$attrId"] = 'required|array|min:1';
+            $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
         }
-        $productFilePath = ProductImagePath();
-        $file_name = uploadImage($request->file, $productFilePath);
+
+        $rules['variants'] = 'required|array|min:1';
+        foreach ($request->input('variants', []) as $index => $variant) {
+            $rules["variants.$index.attributes"] = 'required|string';
+            $rules["variants.$index.stock"] = 'required|numeric|min:0';
+        }
+    }
+
+    $validated = $request->validate($rules);
+
+
+    $product->title         = $validated['title'];
+    $product->price         = $validated['price'];
+    $product->sale          = $validated['sale'];
+    $product->is_draft      = $validated['statue'];
+    $product->description   = $request->description;
+
+
+    if ($request->hasFile('image')) {
+        $path = ProductImagePath();
+        $file_name = uploadImage($request->image, $path, $product->image);
+        $product->image = $file_name;
+    }
+
+    $product->save();
+
+
+    $product->categories()->sync($validated['categories']);
+
+
+    if ($product->type === 'variant') {
+
+        foreach ($product->variants as $oldVariant) {
+            $oldVariant->attributeValues()->detach();
+            $oldVariant->delete();
         }
 
 
-      $product->update([
-        'title' => $request->title,
-        'price' => $request->price,
-        'sale' => $request->sale,
-        'is_draft' => $request->statue,
-        'image' => $file_name,
-      ]);
+        foreach ($validated['variants'] as $variantData) {
+            $variant = new ProductVariant();
+            $variant->product_id = $product->id;
+            $variant->stock = $variantData['stock'];
+            $variant->save();
 
-      $product->categories()->sync($request->categories);
+            $attributeValueIds = explode(',', $variantData['attributes']);
+            $variant->attributeValues()->attach($attributeValueIds);
+        }
+    }
 
       return redirect()->route('admin.products.index')->with(['success'=> "updated Product id:$id"]);
     }

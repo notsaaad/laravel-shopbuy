@@ -38,7 +38,7 @@
         <button class="clear-btn our-btn">Clear</button>
     </div>
     <section class="table_titil">
-        <span>View Attribute <span class="count"></span></span>
+        <span>View Attributes <span class="count"></span></span>
         <div class="outputs">
             <div class="search_block">
                 <input type="text" class="search"placeholder="Search Product" onkeyup="SearchTable(this)">
@@ -53,6 +53,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Type</th>
+                        <th>View</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -66,6 +67,7 @@
                       <td>{{$att->id}}</td>
                       <td><a href="{{ route('att-values.view', $att->id) }}">{{$att->name}}</a></td>
                       <td>{{$att->display_type}}</td>
+                      <td><a href="{{ route('att-values.view', $att->id) }}" class="btn btn-primary link">View</a></td>
                       <td class='center'>
                         <span class="Actions"><a class="link" href="{{ route('Attribut.edit', $att->id) }}"><i class="fa-solid fa-file-pen"></i></a>
                           <form method="POST" action="{{ route('attribute.destroy', $att->id) }}">

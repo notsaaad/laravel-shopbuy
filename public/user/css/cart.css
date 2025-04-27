@@ -88,6 +88,21 @@
       width: 50%;
     }
   }
+
+.cart-item .product-info span{
+  font-size: 12px;
+  color: var(--text-gray-color);
+}
+.product-name > span{
+  display: block;
+}
+.Color_Cirec{
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}
 .cart p{
   margin-bottom: 0;
 }
@@ -96,6 +111,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.product-name strong{
+  display: block;
 }
 
 .item-details input {
@@ -194,8 +212,12 @@
 
 }
 .product-controls input{
-    width: 50px;
-    text-align: center;
+  text-align: center;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid #cbc8c8;
+  border-radius: 2px;
+  color: green;
 
 }
 .max-info{

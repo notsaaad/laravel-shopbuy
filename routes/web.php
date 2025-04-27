@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\AuthController;
 use App\Http\Controllers\user\CartController;
 use App\Http\Controllers\user\HomeController;
+use App\Http\Controllers\user\StoreController;
 use App\Http\Controllers\admin\ProductsController;
 
 /*
@@ -21,7 +22,7 @@ use App\Http\Controllers\admin\ProductsController;
 
 
 Route::get('/',   [HomeController::class, 'home'])->name('index');
-Route::get('/store', [HomeController::class, 'store'])->name('store');
+
 
 // =============================== Start Auth Routes ================================
 
@@ -42,4 +43,12 @@ Route::controller(CartController::class)->group(function(){
   Route::get('/cart', 'index')->name('cart');
   Route::post('/cart/add', 'add')->name('add_product');
   Route::get('/cart/remove/{product_id}', 'remove')->name('cart_remove');
+  Route::post('/cart/update/{id}', 'update')->name('cart_update');
+});
+
+
+Route::prefix('/store')->controller(StoreController::class)->group(function(){
+  Route::get('/', 'index')->name('store');
+
+  Route::get('/product/{id}', 'product_show')->name('product.show');
 });

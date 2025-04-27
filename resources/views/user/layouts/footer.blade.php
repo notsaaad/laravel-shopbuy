@@ -98,8 +98,10 @@
   <script src="{{URL::asset('public/user/js/jquery-3.7.1.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  @if (!isset($hideMessages))
   @include('user.messages.success')
   @include('user.messages.error')
+  @endif
   <script src="{{URL::asset('public/user/js/main.js')}}"></script>
   @yield('js')
 </body>

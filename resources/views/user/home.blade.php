@@ -98,11 +98,10 @@
             @foreach ( $categories as $cat )
               <div class="col" >
                   <div class="card text-center border-1 shadow" >
-                      <img src="{{ URL::asset(CategoryImagePath().$cat->image) }}" alt="{{ $cat->name }}"
-                          class="card-img-top mx-auto mt-3" style="width: 120px;">
+                      <img src="{{ URL::asset(CategoryImagePath().$cat->image) }}" alt="{{ $cat->name }}" class="card-img-top single-category-image">
                       <div class="card-body">
                           <h6 class="card-title">{{$cat->name}}</h6>
-                          <p class="card-text text-muted">{{$cat->products_count}}</p>
+                          <p title="count" class="card-text text-muted">{{$cat->products_count}}</p>
                       </div>
                   </div>
               </div>
@@ -228,12 +227,12 @@
                 </div>
             </div> --}}
             @foreach ( $products as $product )
-            <div class="col">
-                <div class="card h-100 position-relative">
-                      <img src="{{ URL::asset(ProductImagePath().$product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+            <a  href="{{ route('product.show', $product->id) }}" class="col">
+                <div class="card h-100 position-relative single-product">
+                      <img src="{{ URL::asset(ProductImagePath().$product->image) }}" class="card-img-top single-product-img" alt="{{ $product->name }}">
                       <div class="card-body">
-                          <h5 class="card-title">{{ $product->title }}</h5>
-                          <p class="card-text text-muted">Compact size with Alexa Voice Control</p>
+                          <h5 class="card-title text-center">{{ $product->title }}</h5>
+                          <p class="card-text text-muted text-center product-description">{{$product->description ?? "No Desciption"}}</p>
                           <div class="d-flex justify-content-between align-items-center">
                               <span class="text-decoration-line-through">
                                 @if ($product->price)
@@ -242,15 +241,19 @@
                             </span>
                               <span class="text-primary fw-bold">{{$product->sale}} $</span>
                           </div>
+                          @if ($product->type == 'simple')
                           <form method="POST" action="{{ route('add_product') }}">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1" min="1">
                             <div class="center mt-2 mb-2"><button type="submit" class="btn btn-primary">Add to Cart</button></div>
-                        </form>
+                          </form>
+                          @else
+                          <div class="center mt-2 mb-2"><button  class="btn btn-primary disabled">Add to Cart</button></div>
+                          @endif
                       </div>
                 </div>
-              </div>
+              </a>
             @endforeach
             @empty($products)
             <p class="text-center">No Product Found</p>
