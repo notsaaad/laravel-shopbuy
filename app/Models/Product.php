@@ -25,6 +25,8 @@ class Product extends Model
         'is_draft',
         'description',
         'type',
+        'stock',
+        'gallary',
         'created_at',
     ];
 
@@ -43,6 +45,10 @@ class Product extends Model
      * @var array
      */
     protected $appends = ['formatted_variants'];
+
+    protected $casts = [
+      'gallery' => 'array',
+  ];
 
     public $timestamps = true;
 

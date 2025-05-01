@@ -258,11 +258,11 @@ $('.setDrafthbtn-checks').on('click', function(){
 
 const fileInput = document.getElementById('fileInput');
 if(fileInput){
-  const preview = document.getElementById('preview');
+  const preview      = document.getElementById('preview');
   const previewImage = document.getElementById('previewImage');
   const progressContainer = document.getElementById('progressContainer');
-  const progress = document.getElementById('progress');
-  const fileName = document.getElementById('fileName');
+  const progress          = document.getElementById('progress');
+  const fileName          = document.getElementById('fileName');
 
   fileInput.addEventListener('change', function () {
     if (fileInput.files.length > 0) {
@@ -305,3 +305,92 @@ if(fileInput){
 
 
 // ================================================ End Handel File Uploading Image ================================
+
+
+// ================================================ Start Gallary ============================================
+const galleryInput = document.getElementById('galleryInput');
+
+if (galleryInput) {
+    const galleryPreview = document.getElementById('gallarypreview');
+    let filesArray = [];
+
+    galleryInput.addEventListener('change', function () {
+        const newFiles = Array.from(galleryInput.files);
+
+        newFiles.forEach(file => {
+            filesArray.push(file);
+            const reader = new FileReader();
+
+            // إنشاء عناصر المعاينة
+            const previewContainer = document.createElement('div');
+            previewContainer.classList.add('previewContainer');
+
+            const img = document.createElement('img');
+            img.src = '';
+            img.alt = file.name;
+
+            const removeBtn = document.createElement('span');
+            removeBtn.textContent = 'X';
+            removeBtn.classList.add('GallaryRemoveImage');
+
+            const progressBarContainer = document.createElement('div');
+            progressBarContainer.classList.add('progressBarContainer');
+
+            const progressBar = document.createElement('div');
+            progressBar.classList.add('progressBar');
+            progressBar.style.width = '0%';
+
+            progressBarContainer.appendChild(progressBar);
+
+            removeBtn.addEventListener('click', function () {
+                // حذف الصورة من الملفات
+                const index = filesArray.indexOf(file);
+                if (index > -1) {
+                    filesArray.splice(index, 1);
+                }
+                previewContainer.remove();
+                updateFileInput();
+            });
+
+            reader.onloadstart = function () {
+                progressBar.style.width = '0%';
+            };
+
+            reader.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    const percent = (event.loaded / event.total) * 100;
+                    progressBar.style.width = percent + '%';
+                }
+            };
+
+            reader.onloadend = function (e) {
+                img.src = e.target.result;
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressBarContainer.style.display = 'none';
+                }, 500);
+            };
+
+            reader.readAsDataURL(file);
+
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(removeBtn);
+            previewContainer.appendChild(progressBarContainer);
+            galleryPreview.appendChild(previewContainer);
+        });
+
+        updateFileInput(); // تحديث input بملفاتك الفعلية
+    });
+
+    function updateFileInput() {
+        // تحويل array إلى FileList جديدة
+        const dataTransfer = new DataTransfer();
+        filesArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        galleryInput.files = dataTransfer.files;
+    }
+}
+
+
+// ================================================ End Gallary ===============================================

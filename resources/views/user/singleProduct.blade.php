@@ -3,23 +3,7 @@
 @section('title', $product['title'])
 
 @section('css')
-    <style>
-        .product-images { flex: 1; }
-        .main-image { width: 100%; border-radius: 8px; max-height: 400px; object-fit: contain; background: #f9f9f9; }
-        .product-details { flex: 1; }
-        .product-title { font-size: 28px; margin-bottom: 10px; }
-        .product-short-desc { font-size: 16px; color: #555; margin-bottom: 20px; }
-        .price-section { font-size: 20px; margin-bottom: 20px; }
-        .old-price { text-decoration: line-through; color: #999; margin-right: 10px; }
-        .current-price { color: #007bff; font-weight: bold; }
-        .product-variants label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
-        .color-circle { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #ddd; cursor: pointer; display: inline-block; }
-        .color-circle.selected { border-color: #007bff; box-shadow: 0 0 4px 1px #000000b8; }
-        .size-btn { padding: 5px 10px; border: 1px solid #ddd; cursor: pointer; background: #f9f9f9; }
-        .size-btn.selected { border: 2px solid #007bff; }
-        .add-to-cart-btn { margin-top: 20px; padding: 12px 25px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        .add-to-cart-btn:hover { background-color: #0056b3; }
-    </style>
+    <link rel="stylesheet" href="{{ URL::asset('public/user/css/single_product.css') }}">
 @stop
 
 @section('content')
@@ -27,9 +11,24 @@
 <br><br><br>
 <div class="main-content">
     <div class="container">
+      @guest
+      <div class="alert alert-success" role="alert">
+        Login for cart
+        <a href="{{ route('login') }}">Login</a>
+      </div>
+      @endguest
         <div class="product-page" style="display: flex; gap: 30px;">
             <div class="product-images">
                 <img src="{{ URL::asset(ProductImagePath() . $product['image']) }}" alt="{{ $product['title'] }}" class="main-image">
+                @if (! empty($product['gallery']))
+                <div class="thumbnails">
+                  <img src="{{ URL::asset(ProductImagePath() . $product['image']) }}" alt="{{ $product['title'] }}">
+
+                @foreach ($product['gallery'] as $img )
+                <img src="{{ URL::asset(ProductImagePath() . $img)}}" alt="img">
+                @endforeach
+                </div>
+                @endif
             </div>
 
             <div class="product-details">
@@ -77,15 +76,19 @@
                             </div>
                         @endforeach
 
+                        @auth
                         <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        @endauth
                     </form>
                 @else
                     {{-- Simple Product --}}
-                    <form method="POST" action="{{ route('add_product') }}">
+                    @auth
+                      <form method="POST" action="{{ route('add_product') }}">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                         <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                    </form>
+                      </form>
+                    @endauth
                 @endif
             </div>
         </div>
@@ -95,6 +98,15 @@
 
 @section('js')
 <script>
+    const thumbnails = document.querySelectorAll('.thumbnails img');
+    const mainImage = document.querySelector('.main-image');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            mainImage.src = thumb.src;
+        });
+    });
+
     const variantData = @json($product['formatted_variants']);
     const selectedAttributes = {};
     const productType = '{{ $product['type'] }}';

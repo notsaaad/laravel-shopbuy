@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\AuthController;
 use App\Http\Controllers\user\CartController;
@@ -52,3 +53,7 @@ Route::prefix('/store')->controller(StoreController::class)->group(function(){
 
   Route::get('/product/{id}', 'product_show')->name('product.show');
 });
+
+
+
+Route::get('api/products', [API::class, 'index']);

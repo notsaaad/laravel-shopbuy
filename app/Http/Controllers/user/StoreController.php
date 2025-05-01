@@ -24,6 +24,7 @@ class StoreController extends Controller
 
     function product_show($id){
       $product = Product::with('variants.attributeValues.attribute')->findOrFail($id);
+      $product->gallery = json_decode($product->gallery, true);
       // return $product;
       return view('user.singleProduct', compact('product'));
     }

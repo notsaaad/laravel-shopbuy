@@ -45,20 +45,33 @@
                         <option value="NULL">-- Please Add Category --</option>
                     @endempty
                 </select>
+                @error('categories')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
             </div>
         </div>
+        <div class="two-input">
+          <div class="input-div w-half" style="width: 50%">
+            <label for="stock" >Stock</label>
+            <input type="number" name="stock" id="stock" value="{{ old('stock') }}"  placeholder="Enter Stock amount or leave it empty for non tracking">
+            @error('stock')
+              <small class="text-danger">{{$message}}</small>
+            @enderror
+          </div>
+        </div>
+        <div class="two-input"></div>
         <div class="input-div Description_div">
           <label for="description" >Description</label>
-          <textarea name="description" value="{{ old('description') }}"  class="Description"  placeholder="Enter Product Descraiption" id="description" ></textarea>
+          <textarea name="description" value="{{ old('description') }}"  class="Description"  placeholder="Enter Product Descraiption" id="description" >{{ old('description') }}</textarea>
         </div>
 
         <div class="input-div ">
             <label for="cat" class="riq">Product Type</label>
             <select name="type" id="product_type">
-                <option value="NULL">Select Product Type </option>
                 <option value="simple">Simple</option>
                 <option value="variant">Variant</option>
             </select>
+
 
             <div id="variant_section" class="input-div" style="display: none; margin-top: 20px;">
                 <label for="attribute_selector">Select Attribute:</label>
@@ -74,11 +87,13 @@
             </div>
         </div>
 
-        <div class="product_editor upload-container">
+        <div class="product_editor upload-container mb-2">
+          <hr>
+            <div class="input-div"><label for="" class="riq">Add Product Image</label></div>
             <div class="image-upload">
                 <i class="fa-regular fa-image"></i>
                 <input type="file" name="image" id="fileInput" class="fileInput" accept="image/*">
-                <span class="Upload_image">Upload image</span>
+                <span class="Upload_image">Main Image</span>
             </div>
             <div id="progressContainer" class="progress-bar" style="display: none;">
                 <div id="progress" class="progress"></div>
@@ -91,6 +106,21 @@
                 </div>
             </div>
         </div>
+
+        <div class="product_editor upload-container mt-2">
+            <hr>
+            <div class="input-div">
+                <label for="galleryInput" >Add Product Gallery</label>
+            </div>
+
+            <div class="image-upload">
+                <i class="fa-regular fa-image"></i>
+                <input type="file" name="gallery[]" id="galleryInput" class="galleryInput fileInput" accept="image/*" multiple>
+                <span class="Upload_image">Upload Images</span>
+            </div>
+
+            <div id="gallarypreview" class="upload-preview" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+          </div>
 
         <button type="submit">Add Product</button>
     </form>

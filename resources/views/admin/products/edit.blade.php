@@ -11,7 +11,7 @@
   <form action="{{ route('admin.products.postedit', $product->id) }}" method="post" class="add_user" enctype="multipart/form-data">
     @csrf
 
-    <!-- Basic Fields -->
+
     <div class="two-input">
       <div class="input-div w-half">
         <label for="title" class="riq">Title</label>
@@ -44,6 +44,17 @@
       </div>
     </div>
 
+
+      <div class="two-input">
+        <div class="input-div w-half" style="width: 50%">
+          <label for="stock" >Stock</label>
+          <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock) }}"  placeholder="Enter Stock amount or leave it empty for non tracking">
+          @error('stock')
+            <small class="text-danger">{{$message}}</small>
+          @enderror
+        </div>
+      </div>
+
     <div class="input-div Description_div">
       <label for="description" >Description</label>
       <textarea name="description"  class="Description"  placeholder="Enter Product Descraiption" id="description" >{{ old('description', $product->description) }}</textarea>
@@ -62,7 +73,9 @@
     </div>
 
     <!-- Image Upload -->
-    <div class="product_editor upload-container">
+    <div class="product_editor upload-container mb-2">
+      <hr>
+      <div class="input-div"><label for="" class="riq">Add Product Image</label></div>
       <div class="image-upload">
         <i class="fa-regular fa-image"></i>
         <input type="file" name="image" id="fileInput" class="fileInput" accept="image/*">
@@ -109,6 +122,33 @@
         <div id="variants_section" style="margin-top: 30px;"></div>
       </div>
     @endif
+    <div class="product_editor upload-container mt-2">
+      <hr>
+      <div class="input-div">
+          <label for="galleryInput" >Add Product Gallery</label>
+      </div>
+
+      <div class="image-upload">
+          <i class="fa-regular fa-image"></i>
+          <input type="file" name="gallery[]" id="galleryInput" class="galleryInput fileInput" accept="image/*" multiple>
+          <span class="Upload_image">Upload Images</span>
+      </div>
+
+      @if ($product->gallery)
+      <div id="gallarypreview"  class="upload-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+          @foreach ($product->gallery as $index => $image)
+              <div class="previewContainer" data-index="{{ $index }}">
+                  <img src="{{ URL::asset(ProductImagePath(). $image) }}" alt="Gallery Image" width="100" height="100">
+                  <span class="GallaryRemoveImage" onclick="removeExistingImage({{ $index }})">X</span>
+              </div>
+          @endforeach
+      </div>
+
+      <!-- Hidden input to track removed images -->
+      <input type="hidden" name="removed_images" id="removedImages" value="">
+    @endif
+
+
 
     <button type="submit">Update Product</button>
   </form>
@@ -116,8 +156,18 @@
 @stop
 
 @section('js')
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
+  let removedImages = [];
+
+function removeExistingImage(index) {
+    const container = document.querySelector(`.previewContainer[data-index='${index}']`);
+    container.remove();
+    removedImages.push(index);
+    document.getElementById('removedImages').value = removedImages.join(',');
+}
   $(document).ready(function() {
     $('#categories').select2({ placeholder: "Choose Categories", allowClear: true });
     $('.attribute-values-select').select2({ placeholder: "Choose Values", allowClear: true, width: '100%' });

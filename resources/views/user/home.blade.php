@@ -241,16 +241,18 @@
                             </span>
                               <span class="text-primary fw-bold">{{$product->sale}} $</span>
                           </div>
-                          @if ($product->type == 'simple')
-                          <form method="POST" action="{{ route('add_product') }}">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1" min="1">
-                            <div class="center mt-2 mb-2"><button type="submit" class="btn btn-primary">Add to Cart</button></div>
-                          </form>
-                          @else
-                          <div class="center mt-2 mb-2"><button  class="btn btn-primary disabled">Add to Cart</button></div>
-                          @endif
+                          @auth
+                            @if ($product->type == 'simple' )
+                            <form method="POST" action="{{ route('add_product') }}">
+                              @csrf
+                              <input type="hidden" name="product_id" value="{{ $product->id }}">
+                              <input type="hidden" name="quantity" value="1" min="1">
+                              <div class="center mt-2 mb-2"><button type="submit" class="btn btn-primary">Add to Cart</button></div>
+                            </form>
+                            @else
+                            <div class="center mt-2 mb-2"><button  class="btn btn-primary disabled">Add to Cart</button></div>
+                            @endif
+                          @endauth
                       </div>
                 </div>
               </a>

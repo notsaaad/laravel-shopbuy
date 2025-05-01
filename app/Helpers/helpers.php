@@ -8,7 +8,7 @@ if (! function_exists('uploadImage')){
       return null;
     }
     $ext = $file->getClientOriginalExtension();
-    $file_name = time() . '.' . $ext;
+    $file_name = time() . '_' . uniqid() . '.' . $ext;
     $file->move($path, $file_name);
     return $file_name;
   }

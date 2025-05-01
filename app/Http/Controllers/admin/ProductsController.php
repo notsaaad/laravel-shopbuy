@@ -45,7 +45,6 @@ class ProductsController extends Controller
 
 
     function post(Request $request){
-      // return $request;
 
       $rules = [
         'title' => 'required|string|max:255',
@@ -55,6 +54,9 @@ class ProductsController extends Controller
         'categories' => 'required|array',
         'categories.*' => 'exists:categories,id',
         'type' => 'required|in:simple,variant',
+        'stock' => 'nullable|integer|min:0',
+        'gallery' => 'nullable',
+        'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
       ];
 
       if ($request->type == 'variant') {
@@ -86,12 +88,31 @@ class ProductsController extends Controller
       $product->sale          = $request->sale;
       $product->type          = $request->type;
       $product->description   = $request->description;
+      $product->stock         = $request->stock;
 
       if ($request->hasFile('image')) {
         $path = ProductImagePath();
         $file_name = uploadImage($request->image, $path );
         $product->image = $file_name;
       }
+
+      $galleryPaths = [];
+
+      if ($request->hasFile('gallery')) {
+          $path = ProductImagePath(); // مكان الحفظ
+          foreach ($request->file('gallery') as $file) {
+              $file_name = uploadImage($file, $path);
+
+              if (!in_array($file_name, $galleryPaths)) {
+                  $galleryPaths[] = $file_name;
+              }
+          }
+      }
+
+      // إزالة التكرار احتياطي:
+      $galleryPaths = array_unique($galleryPaths);
+
+      $product->gallery = !empty($galleryPaths) ? json_encode($galleryPaths) : null;
 
       $product->save();
 
@@ -172,6 +193,7 @@ class ProductsController extends Controller
       // $product = Product::findOrFail($id);
       $categories = Category::get();
       $product = Product::with(['categories', 'variants.attributeValues.attribute'])->findOrFail($id);
+      $product->gallery = json_decode($product->gallery, true);
       // return $product;
       $attributes = Attribute::with('values')->get();
       return view('admin.products.edit', compact('product', 'attributes', 'categories'));
@@ -182,30 +204,6 @@ class ProductsController extends Controller
     function postedit(editRequest $request, string $id){
 
 
-
-      // $product = Product::findOrFail($id);
-
-      // $file_name = $product->image;
-      // if($request->hasFile('image')) {
-      //   if($product->image && file_exists( $product->image)){
-      //     $imageName = basename($product->image);
-      //     $path = 'admin/images/products/'.$imageName;
-      //     DeleteImage($path);
-      //   }
-      //   $productFilePath = ProductImagePath();
-      //   $file_name = uploadImage($request->file, $productFilePath);
-      //   }
-
-
-      // $product->update([
-      //   'title' => $request->title,
-      //   'price' => $request->price,
-      //   'sale' => $request->sale,
-      //   'is_draft' => $request->statue,
-      //   'image' => $file_name,
-      // ]);
-
-      // $product->categories()->sync($request->categories);
 
 
       $product = Product::findOrFail($id);
@@ -218,6 +216,9 @@ class ProductsController extends Controller
         'categories' => 'required|array',
         'categories.*' => 'exists:categories,id',
         'statue' => 'required|in:0,1',
+        'stock' => 'nullable|integer|min:0',
+        'gallery' => 'nullable',
+        'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 
     if ($product->type === 'variant') {
@@ -243,6 +244,7 @@ class ProductsController extends Controller
     $product->sale          = $validated['sale'];
     $product->is_draft      = $validated['statue'];
     $product->description   = $request->description;
+    $product->stock         = $request->stock;
 
 
     if ($request->hasFile('image')) {
@@ -250,6 +252,37 @@ class ProductsController extends Controller
         $file_name = uploadImage($request->image, $path, $product->image);
         $product->image = $file_name;
     }
+        $product->gallery = json_decode($product->gallery, true);
+        $existingGallery = $product->gallery ?? [];
+
+    // حذف الصور اللي طلب المستخدم يشيلها
+    if ($request->filled('removed_images')) {
+
+        $indicesToRemove = explode(',', $request->removed_images);
+        foreach ($indicesToRemove as $index) {
+            if (isset($existingGallery[$index])) {
+                $file_name  = $existingGallery[$index];
+                $path       = 'admin/images/products/'.$file_name;
+                DeleteImage($path);
+                // Storage::disk('public')->delete($existingGallery[$index]);
+                unset($existingGallery[$index]);
+            }
+        }
+    }
+
+
+    $existingGallery = array_values($existingGallery);
+
+
+    if ($request->hasFile('gallery')) {
+      $path = ProductImagePath();
+        foreach ($request->file('gallery') as $file) {
+            $file_name = uploadImage($file, $path);
+            $existingGallery[] = $file_name;
+        }
+    }
+
+    $product->gallery = !empty($existingGallery) ? json_encode($existingGallery) : null;
 
     $product->save();
 
