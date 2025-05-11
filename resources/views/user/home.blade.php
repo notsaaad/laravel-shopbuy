@@ -60,6 +60,7 @@
 
     <div class="container mt-5">
       <h2 class="text-center mb-4">Our Categories</h2>
+        <div class="d-flex align-items-center justify-content-end mb-3"><a href="{{ route('Store.AllCategories') }}" class="btn btn-primary text-end">Show All</a></div>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <!-- Air Conditioner -->
             {{-- <div class="col">
@@ -96,7 +97,7 @@
             </div> --}}
             <!-- Home Appliances -->
             @foreach ( $categories as $cat )
-              <div class="col" >
+              <a href="{{ route('store', $cat->id) }}" class="col" >
                   <div class="card text-center border-1 shadow" >
                       <img src="{{ URL::asset(CategoryImagePath().$cat->image) }}" alt="{{ $cat->name }}" class="card-img-top single-category-image">
                       <div class="card-body">
@@ -104,7 +105,7 @@
                           <p title="count" class="card-text text-muted">{{$cat->products_count}}</p>
                       </div>
                   </div>
-              </div>
+                </a>
             @endforeach
             @empty($categories)
               <p class="text-center">No Category Found</p>

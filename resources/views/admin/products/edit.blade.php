@@ -20,7 +20,7 @@
       </div>
       <div class="input-div w-half">
         <label for="price" class="riq">Price</label>
-        <input type="number" value="{{ old('price', $product->price) }}" id="price" name="price" placeholder="Enter Product Price">
+        <input type="number" value="{{ old('price', $product->price) }}" id="price" step="any" name="price" placeholder="Enter Product Price">
         @error('price') <small class="text-danger">{{ $message }}</small> @enderror
       </div>
     </div>
@@ -28,7 +28,7 @@
     <div class="two-input">
       <div class="input-div w-half">
         <label for="sale_price" class="riq">Sale Price</label>
-        <input value="{{ old('sale', $product->sale) }}" type="number" id="sale_price" name="sale" placeholder="Sale Price">
+        <input value="{{ old('sale', $product->sale) }}" type="number" step="any" id="sale_price" name="sale" placeholder="Sale Price">
         @error('sale') <small class="text-danger">{{ $message }}</small> @enderror
       </div>
       <div class="input-div w-half">

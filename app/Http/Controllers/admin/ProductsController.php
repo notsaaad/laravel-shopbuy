@@ -47,32 +47,32 @@ class ProductsController extends Controller
     function post(Request $request){
 
       $rules = [
-        'title' => 'required|string|max:255',
-        'price' => 'required|numeric|min:0',
-        'sale' => 'required|numeric|min:0',
-        'image' => 'required|mimes:png,jpg,jpeg,webp',
-        'categories' => 'required|array',
-        'categories.*' => 'exists:categories,id',
-        'type' => 'required|in:simple,variant',
-        'stock' => 'nullable|integer|min:0',
-        'gallery' => 'nullable',
-        'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'title'         => 'required|string|max:255',
+        'price'         => 'required|numeric|min:0',
+        'sale'          => 'required|numeric|min:0',
+        'image'         => 'required|mimes:png,jpg,jpeg,webp',
+        'categories'    => 'required|array',
+        'categories.*'  => 'exists:categories,id',
+        'type'          => 'required|in:simple,variant',
+        'stock'         => 'nullable|integer|min:0',
+        'gallery'       => 'nullable',
+        'gallery.*'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
       ];
 
       if ($request->type == 'variant') {
         $rules['attribute_values'] = 'required|array|min:1';
 
         foreach ($request->input('attribute_values', []) as $attrId => $values) {
-            $rules["attribute_values.$attrId"] = 'required|array|min:1';
-            $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
+          $rules["attribute_values.$attrId"]   = 'required|array|min:1';
+          $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
         }
 
         $rules['variants'] = 'required|array|min:1';
 
         foreach ($request->input('variants', []) as $index => $variant) {
-            $rules["variants.$index.attributes"] = 'required|array|min:1';
-            $rules["variants.$index.attributes.*"] = 'exists:attribute_values,id';
-            $rules["variants.$index.stock"] = 'required|numeric|min:0';
+          $rules["variants.$index.attributes"]    = 'required|array|min:1';
+          $rules["variants.$index.attributes.*"]  = 'exists:attribute_values,id';
+          $rules["variants.$index.stock"]         = 'nullable|numeric|min:0';
         }
       }
 
@@ -99,7 +99,7 @@ class ProductsController extends Controller
       $galleryPaths = [];
 
       if ($request->hasFile('gallery')) {
-          $path = ProductImagePath(); // مكان الحفظ
+          $path = ProductImagePath();
           foreach ($request->file('gallery') as $file) {
               $file_name = uploadImage($file, $path);
 
@@ -109,7 +109,7 @@ class ProductsController extends Controller
           }
       }
 
-      // إزالة التكرار احتياطي:
+
       $galleryPaths = array_unique($galleryPaths);
 
       $product->gallery = !empty($galleryPaths) ? json_encode($galleryPaths) : null;
@@ -125,10 +125,9 @@ class ProductsController extends Controller
               $variant->stock = $variantData['stock'];
               $variant->save();
 
-              // تعديل بسيط هنا:
-              $attributeValueIds = is_array($variantData['attributes'])
-                  ? $variantData['attributes']
-                  : explode(',', $variantData['attributes'][0]); // في حالة إنها String داخل Array.
+            $attributeValueIds = is_array($variantData['attributes'])
+                ? array_map('intval', $variantData['attributes'])
+                : array_map('intval', explode(',', $variantData['attributes'][0]));
 
               foreach ($attributeValueIds as $attrValId) {
                   VariantAttributeValue::create([
@@ -138,24 +137,6 @@ class ProductsController extends Controller
               }
           }
       }
-
-
-      // if ($validator->fails()) {
-      //   return redirect()->back()->with(['error' => "Something Went Wrong"]);
-      // }
-
-      // $path = ProductImagePath();
-
-      // $file_name = uploadImage($request->image, $path );
-      // $arr = array(
-      //   'title' => $request->title,
-      //   'price' => $request->price,
-      //   'sale' => $request->sale_price,
-      //   'image'=> $file_name,
-      // );
-
-      // $product = Product::create($arr);
-      // $product->categories()->sync($request->categories);
 
       return redirect()->route('admin.product.add')->with(['success'=> 'Product Added']);
     }
@@ -201,7 +182,7 @@ class ProductsController extends Controller
 
 
 
-    function postedit(editRequest $request, string $id){
+    function postedit(Request $request, string $id){
 
 
 
@@ -254,8 +235,6 @@ class ProductsController extends Controller
     }
         $product->gallery = json_decode($product->gallery, true);
         $existingGallery = $product->gallery ?? [];
-
-    // حذف الصور اللي طلب المستخدم يشيلها
     if ($request->filled('removed_images')) {
 
         $indicesToRemove = explode(',', $request->removed_images);
@@ -264,7 +243,6 @@ class ProductsController extends Controller
                 $file_name  = $existingGallery[$index];
                 $path       = 'admin/images/products/'.$file_name;
                 DeleteImage($path);
-                // Storage::disk('public')->delete($existingGallery[$index]);
                 unset($existingGallery[$index]);
             }
         }

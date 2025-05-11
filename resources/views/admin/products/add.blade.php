@@ -20,7 +20,7 @@
 
             <div class="input-div w-half">
                 <label for="price" class="riq">Price</label>
-                <input type="number" value="{{ old('price') }}" id="price" name="price" placeholder="Enter Product Price">
+                <input type="number" step="any" value="{{ old('price') }}" id="price" name="price" placeholder="Enter Product Price">
                 @error('price')
                   <small class="text-danger">{{$message}}</small>
                 @enderror
@@ -30,7 +30,7 @@
         <div class="two-input">
             <div class="input-div w-half">
                 <label for="sale" class="riq">Sale Price</label>
-                <input type="number" value="{{ old('sale') }}" id="sale" name="sale" placeholder="Sale Price">
+                <input type="number" step="any" value="{{ old('sale') }}" id="sale" name="sale" placeholder="Sale Price">
                 @error('sale')
                   <small class="text-danger">{{$message}}</small>
                 @enderror
@@ -39,7 +39,7 @@
                 <label for="cat" class="riq">Category</label>
                 <select name="categories[]" id="categories" multiple>
                     @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                        <option value="{{ $cat->id }}" {{ in_array($cat->id, old('categories', [])) ? 'selected' : '' }}>{{ $cat->name }}</option>
                     @endforeach
                     @empty($categories)
                         <option value="NULL">-- Please Add Category --</option>
@@ -50,6 +50,7 @@
                 @enderror
             </div>
         </div>
+
         <div class="two-input">
           <div class="input-div w-half" style="width: 50%">
             <label for="stock" >Stock</label>
@@ -59,21 +60,20 @@
             @enderror
           </div>
         </div>
-        <div class="two-input"></div>
+
         <div class="input-div Description_div">
           <label for="description" >Description</label>
-          <textarea name="description" value="{{ old('description') }}"  class="Description"  placeholder="Enter Product Descraiption" id="description" >{{ old('description') }}</textarea>
+          <textarea name="description" value="{{ old('description') }}" class="Description"  placeholder="Enter Product Description" id="description">{{ old('description') }}</textarea>
         </div>
 
         <div class="input-div ">
             <label for="cat" class="riq">Product Type</label>
             <select name="type" id="product_type">
-                <option value="simple">Simple</option>
-                <option value="variant">Variant</option>
+                <option value="simple" {{ old('type') == 'simple' ? 'selected' : '' }}>Simple</option>
+                <option value="variant" {{ old('type') == 'variant' ? 'selected' : '' }}>Variant</option>
             </select>
 
-
-            <div id="variant_section" class="input-div" style="display: none; margin-top: 20px;">
+            <div id="variant_section" class="input-div" style="display: {{ old('type') == 'variant' ? 'block' : 'none' }}; margin-top: 20px;">
                 <label for="attribute_selector">Select Attribute:</label>
                 <select id="attribute_selector" style="width: 100%;" multiple></select>
 
@@ -100,7 +100,7 @@
             </div>
             <div id="preview" style="display: none;">
                 <div class="upload-preview">
-                    <img id="previewImage" src="" alt="Preview" >
+                    <img id="previewImage" src="" alt="Preview">
                     <span id="fileName"></span>
                     <span class="remove-btn" onclick="removeFile()">X</span>
                 </div>
@@ -119,12 +119,19 @@
                 <span class="Upload_image">Upload Images</span>
             </div>
 
-            <div id="gallarypreview" class="upload-preview" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            <div id="gallarypreview" class="upload-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                @foreach (old('gallery', []) as $image)
+                    <div class="image-preview">
+                        <img src="{{ asset('storage/' . $image) }}" alt="Gallery Image">
+                    </div>
+                @endforeach
+            </div>
           </div>
 
         <button type="submit">Add Product</button>
     </form>
 </div>
+
 @stop
 
 @section('js')
@@ -169,7 +176,7 @@ $(document).ready(function() {
 
     $('#add_attribute_btn').click(function(e) {
         e.preventDefault();
-
+        $('#generate_variants_btn').show();
         let attrId = $('#attribute_selector').val();
         let attrData = $('#attribute_selector').select2('data')[0];
         let attrText = attrData.text;
@@ -186,7 +193,6 @@ $(document).ready(function() {
 
         selectedAttributes.push(attrId);
 
-        // إزالة العنصر من الاختيارات
         let newOptions = $('#attribute_selector option').filter(function() {
             return $(this).val() != attrId;
         });
@@ -220,9 +226,6 @@ $(document).ready(function() {
                     placeholder: 'Select values for ' + attrText,
                     allowClear: true
                 });
-
-                // إظهار زرار Generate لو فيه قيم مختارة
-                checkGenerateButtonVisibility();
             }
         });
     });
@@ -234,11 +237,8 @@ $(document).ready(function() {
         $(`.attribute-block[data-attr-id="${attrId}"]`).remove();
         selectedAttributes = selectedAttributes.filter(id => id !== attrId);
 
-        // رجع العنصر للـ Select
         let newOption = new Option(attrName, attrId, false, false);
         $('#attribute_selector').append(newOption).trigger('change');
-
-        checkGenerateButtonVisibility();
     });
 
     $('#generate_variants_btn').click(function() {
@@ -306,21 +306,6 @@ $(document).ready(function() {
         });
 
         return result;
-    }
-
-    function checkGenerateButtonVisibility() {
-        let hasValues = false;
-        $('.attribute-values-select').each(function() {
-            if ($(this).val() && $(this).val().length > 0) {
-                hasValues = true;
-            }
-        });
-
-        if (hasValues) {
-            $('#generate_variants_btn').show();
-        } else {
-            $('#generate_variants_btn').hide();
-        }
     }
 });
 </script>

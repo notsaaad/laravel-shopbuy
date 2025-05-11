@@ -82,7 +82,7 @@
           <div class="navbar">
             <a class="links" href="{{ route('index') }}">Home</a>
             <a class="links" href="{{ route('store') }}">Store</a>
-            <a class="links" href="#">Orders</a>
+            <a class="links" href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">Orders</a>
             <a class="links" href="#">Contact us</a>
 
             {{-- <div class="dropdown">
@@ -102,6 +102,7 @@
               <a href="{{route('login')}}">Login</a>
               @endif
               @if (Auth::check())
+              <a href="{{ route('myaccount') }}">My Account</a>
               <a href="{{ route('logout') }}">Logout</a>
               @endif
             </div>

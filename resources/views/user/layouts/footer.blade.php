@@ -10,7 +10,7 @@
       <div class="icon">
         <i class="fa-solid fa-box"></i>
       </div>
-      <a href="#" class="link">Check your Orders</a>
+      <a href="{{ route('myaccount', ['tab'=> 'my-orders']) }}" class="link">Check your Orders</a>
     </div>
     <div class="footer-section col-sm-12 col-md-6 col-lg-3">
       <div class="icon">
@@ -32,8 +32,8 @@
       <h4>My Account</h4>
       <ul>
         @auth
-        <li><a href="#">My Account Page</a></li>
-        <li><a href="#">Orders</a></li>
+        <li><a href="{{ route('myaccount') }}">My Account Page</a></li>
+        <li><a href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">Orders</a></li>
         <li><a href="{{ route('logout') }}">Log Out</a></li>
         @endauth
         @guest
@@ -45,12 +45,7 @@
     <div class="footer-column col-sm-12 col-md-6 col-lg-3">
       <h4>Categories</h4>
       <ul>
-        <li><a href="#">Visit our Support Center</a></li>
-        <li><a href="#">Contact with an Expert</a></li>
-        <li><a href="#">Schedule a Service</a></li>
-        <li><a href="#">Manage an Appointment</a></li>
-        <li><a href="#">Protection & Support Plans</a></li>
-        <li><a href="#">Haul Away & Recycling</a></li>
+        <li><a href="{{ route('Store.AllCategories') }}">Show All Categoryies</a></li>
       </ul>
     </div>
 
@@ -64,7 +59,15 @@
     </div>
 
     <div class="footer-column col-sm-12 col-md-6 col-lg-3  footer-Email">
-      <span class="footer-sgin-in"><a href="{{ route('Signup') }}">Log in or Create Account</a></span>
+      <span class="footer-sgin-in">
+        @auth
+        <a href="{{ route('myaccount') }}">My Account</a>
+        @endauth
+        @guest
+        <a href="{{ route('Signup') }}">Log in or Create Account</a>
+
+        @endguest
+      </span>
 
       <hr>
       <div class="social-icon">

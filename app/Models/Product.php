@@ -44,7 +44,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $appends = ['formatted_variants'];
+
 
     protected $casts = [
       'gallery' => 'array',
@@ -62,7 +62,7 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'product_id');
     }
-
+    protected $appends = ['formatted_variants'];
     // Accessor for formatted_variants
     public function getFormattedVariantsAttribute(){
 

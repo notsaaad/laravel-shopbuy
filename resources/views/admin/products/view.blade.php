@@ -71,7 +71,7 @@
         <button class="clear-btn our-btn">Clear</button>
     </div>
     <section class="table_titil">
-        <span>View Users: <span class="count"></span></span>
+        <span>View Products : <span class="count"></span></span>
         <div class="outputs">
             <div class="search_block">
                 <input type="text" class="search"placeholder="Search Product" onkeyup="SearchTable(this)">
@@ -91,6 +91,7 @@
                         <th>Category</th>
                         <th>Type</th>
                         <th>Status</th>
+                        <th>Actions</th>
                         <th>Created At</th>
                     </tr>
                 </thead>
@@ -132,6 +133,7 @@
                               </form>
                         </span>
                       </td>
+                      <td>{{$product->created_at}}</td>
                   </tr>
                   @php
                     $index++;

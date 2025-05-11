@@ -74,4 +74,8 @@ class AuthController extends Controller
     }
     return response()->json($products);
   }
+
+  function account(){
+    return view('user.myaccount');
+  }
 }
