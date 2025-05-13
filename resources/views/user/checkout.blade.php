@@ -119,7 +119,7 @@
                               </ul>
                               <p class="cart-item-price">${{ number_format($item->price, 2) }}</p>
                             </div>
-                            <p class="mb-0"> <b> ${{ number_format($item->price, 2) *  $item->quantity }}</b></p>
+                            <p class="mb-0"> <b> ${{ number_format((float)$item->price * (int)$item->quantity, 2) }}</b></p>
                         </div>
 
                     @endforeach
