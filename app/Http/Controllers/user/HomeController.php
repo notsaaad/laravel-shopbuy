@@ -25,7 +25,7 @@ class HomeController extends Controller
     }
 
 
-    $products = Product::where('is_draft', 0)->take(6)->get();
+    $products = Product::where('is_draft', 0)->take(8)->get();
     // return $products;
     return view('user.home', compact('categories', 'products', 'cartCount'));
   }

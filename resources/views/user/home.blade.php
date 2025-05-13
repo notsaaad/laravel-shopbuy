@@ -251,7 +251,7 @@
                               <div class="center mt-2 mb-2"><button type="submit" class="btn btn-primary">Add to Cart</button></div>
                             </form>
                             @else
-                            <div class="center mt-2 mb-2"><button  class="btn btn-primary disabled">Add to Cart</button></div>
+                            <div class="center mt-2 mb-2"><button  class="btn btn-primary disabled">View</button></div>
                             @endif
                           @endauth
                       </div>
