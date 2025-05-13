@@ -88,4 +88,25 @@ class StoreController extends Controller
       // return $product;
       return view('user.singleProduct', compact('product'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+
+        $products = Product::where('title', 'like', "%{$query}%")
+            ->take(5)
+            ->get(['id', 'title', 'image']);
+
+        // إعداد الصورة لو كانت في ملفات
+        $products->transform(function ($product) {
+            $product->image = asset( ProductImagePath() . $product->image);
+            return $product;
+        });
+
+        foreach ($products as $product) {
+          $product->URL = route('product.show', $product->id);
+        }
+
+        return response()->json($products);
+    }
 }

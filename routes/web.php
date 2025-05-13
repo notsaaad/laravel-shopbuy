@@ -55,6 +55,7 @@ Route::prefix('/store')->controller(StoreController::class)->group(function(){
   Route::get('/{category?}', 'index')->name('store');
   Route::get('/product/{id}', 'product_show')->name('product.show');
 });
+  Route::get('/search-products', [StoreController::class, 'search'])->name('products.search');
 
 
 

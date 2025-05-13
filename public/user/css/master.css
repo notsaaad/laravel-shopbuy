@@ -31,7 +31,12 @@ a{
 a:hover{
   opacity: 0.8;
 }
-
+#search-results a:hover{
+  opacity: 1;
+}
+#search-results img{
+  object-fit: cover;
+}
 
 /* ========================================= Start Header ======================== */
 .logo img{

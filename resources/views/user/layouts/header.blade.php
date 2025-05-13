@@ -55,9 +55,10 @@
                 <span class="menu-icon"></span> Menu
             </button>
 
-            <div class="search-bar-container">
-                <input type="text" placeholder="What can we help you find today?" class="search-bar">
+            <div class="search-bar-container position-relative">
+                <input type="text" id="product-search" placeholder="What can we help you find today?" class="search-bar">
                 <button class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <div id="search-results" class="list-group position-absolute w-100" style="z-index: 1000;"></div>
             </div>
 
             <div class="header-icons">
@@ -125,6 +126,7 @@
         </div>
 
       </header>
+      
       @include('user.layouts.sidebar')
 
     <!-- ================================================== End Header ==================================================== -->

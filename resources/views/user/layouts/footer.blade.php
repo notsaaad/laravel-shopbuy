@@ -96,6 +96,53 @@
 
 
   <!-- Bootstrap JS -->
+<script>
+    const searchUrl = "{{ route('products.search') }}";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('product-search');
+        const resultsBox = document.getElementById('search-results');
+
+        input.addEventListener('keyup', function () {
+            const query = this.value;
+
+            if (query.length < 2) {
+                resultsBox.innerHTML = '';
+                return;
+            }
+
+            fetch(`${searchUrl}?query=${encodeURIComponent(query)}`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                resultsBox.innerHTML = '';
+                console.log(data);
+
+                if (data.length === 0) {
+                    resultsBox.innerHTML = '<div class="list-group-item text-muted">No results found.</div>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    const div = document.createElement('a');
+                    div.href = item.URL;
+                    div.className = 'list-group-item list-group-item-action d-flex align-items-center';
+
+                    div.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" width="40" height="40" class="me-2 rounded">
+                        <span>${item.title}</span>
+                    `;
+
+                    resultsBox.appendChild(div);
+                });
+            });
+        });
+    });
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   <script src="{{URL::asset('public/user/js/jquery-3.7.1.min.js')}}"></script>
