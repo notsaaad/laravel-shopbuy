@@ -86,9 +86,9 @@ h6{
 }
 .main-content{
   margin-top: 20px;
-  width: calc(100%  - 350px);
+  width: calc(100%  - 280px);
 }
-@media screen and (max-width:800px) {
+@media screen and (max-width:900px) {
   .main-content{
     width: 100%;
   }
@@ -565,7 +565,7 @@ td{
 .header .navbar-toggler{
   display: none;
 }
-@media screen and (max-width:800px) {
+@media screen and (max-width:900px) {
   .header .navbar-toggler{
     display: block;
   }
@@ -585,13 +585,13 @@ td{
 
 /* ===================================== Start Aside ======================================= */
 .Aside{
-  width: 350px;
+  width: 280px;
   padding: 20px;
   background-color: var(--dark-bg-blue);
 
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:900px) {
   .main > .Aside{
     display: none;
   }

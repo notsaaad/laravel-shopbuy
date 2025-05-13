@@ -24,7 +24,7 @@ class AuthController extends Controller
     $user = User::where('email', $credentials['email'])->first();
 
     if ($user && Hash::check($credentials['password'], $user->password)) {
-        Auth::login($user);
+        Auth::login($user, true);
         return redirect()->route('admin.home')->with(['success'=> 'Login Successfully']);
     }
 

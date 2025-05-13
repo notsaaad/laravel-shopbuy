@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\AuthController;
 use App\Http\Controllers\user\CartController;
 use App\Http\Controllers\user\HomeController;
+use App\Http\Controllers\user\OrderController;
 use App\Http\Controllers\user\StoreController;
 use App\Http\Controllers\admin\ProductsController;
 
@@ -54,6 +55,15 @@ Route::prefix('/store')->controller(StoreController::class)->group(function(){
   Route::get('/{category?}', 'index')->name('store');
   Route::get('/product/{id}', 'product_show')->name('product.show');
 });
+
+
+
+Route::controller(OrderController::class)->group(function(){
+  Route::get('/checkout', 'checkout')->name('checkout');
+  Route::post('/checkout-post', 'store')->name('ordersave');
+  Route::get('/thank-you/{order}', 'thankYou')->name('thank.you.page');
+});
+
 
 
 

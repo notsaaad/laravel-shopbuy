@@ -96,13 +96,7 @@
 .product-name > span{
   display: block;
 }
-.Color_Cirec{
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-}
+
 .cart p{
   margin-bottom: 0;
 }

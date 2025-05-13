@@ -44,4 +44,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     public $timestamps = true;
+
+
+    public function orders()
+    {
+      return $this->hasMany(Order::class);
+    }
 }

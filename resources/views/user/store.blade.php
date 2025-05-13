@@ -52,7 +52,7 @@
                 <span> Total Proucts :  <b>@php echo count($products) @endphp</b> </span>
             </div>
             <hr>
-            <div class="row">
+            <div class="row g-4">
               @if(!empty($category))
                 <h4 class="mb-4">Showing products for category: <strong>{{ $category }}</strong></h4>
               @endif

@@ -109,11 +109,11 @@
                     <div class="divider"></div>
                     <p><strong>Items:</strong> <span>${{ $cartTotal, 2 }}</span></p>
                     <p><strong>Shipping:</strong> <span>FREE</span></p>
-                    <p><strong>Estimated Tax:</strong> <span>$0.00</span></p>
+                    {{-- <p><strong>Estimated Tax:</strong> <span>$0.00</span></p> --}}
                     <div class="divider"></div>
                     <p class="total"><strong>Total:</strong> <span>${{ $cartTotal, 2 }}</span></p>
                     <div class="checkout-buttons">
-                        <button class="checkout-btn">Checkout</button>
+                        <a href="{{ route('checkout') }}" class="checkout-btn">Checkout</a>
                     </div>
                 </form>
             @endif

@@ -74,7 +74,6 @@ class CartController extends Controller
 
         $cartItems = Cart::session($sessionKey)->getContent();
         $cartTotal = Cart::session($sessionKey)->getTotal();
-
         return view('user.cart', compact('cartItems', 'cartTotal'));
     }
 

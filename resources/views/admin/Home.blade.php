@@ -13,25 +13,25 @@
       <a href="{{ route('admin.products.index') }}" class=" link box-total col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Product</h2>
-          <span class="total_cont">*  {{ $allProducts }}  *</span>
+          <span class="total_cont">  {{ $allProducts }}  <i class="fa-solid fa-arrow-up-right-dots"></i></span>
         </div>
       </a>
       <div class="col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Orders</h2>
-          <span class="total_cont">*  500  *</span>
+          <span class="total_cont">  500  <i class="fa-solid fa-chart-line"></i></span>
         </div>
       </div>
       <a href="{{ route('users.index') }}" class="link box-total col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Users</h2>
-          <span class="total_cont">*  {{$allUsers}}  *</span>
+          <span class="total_cont">  {{$allUsers}}  <i class="fa-solid fa-arrow-up-right-dots"></i></span>
         </div>
       </a>
       <a  href="{{ route('attribute.add') }}" class="link box-total col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Attributes</h2>
-          <span class="total_cont">*  {{ $Attributes }}  *</span>
+          <span class="total_cont">  {{ $Attributes }}  <i class="fa-solid fa-arrow-up-right-dots"></i></span>
         </div>
       </a>
       <div class="col-sm-12 col-md-6"></div>
