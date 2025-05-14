@@ -39,7 +39,7 @@
   <div class="container">
     @guest
       <div class="alert alert-danger" role="alert">
-        Login for add to cart
+        Login For Add To Cart
         <a href="{{ route('login') }}">Login</a>
       </div>
     @endguest
@@ -125,6 +125,9 @@
             </form>
           @endauth
         @endif
+        @guest
+          <a href="{{ route('login') }}" class="btn btn-danger">Login For Add To Cart</a>
+        @endguest
       </div>
     </div>
   </div>
