@@ -124,15 +124,28 @@
                                 </thead>
                                 <tbody>
 
+                                  @forelse ( $orders as $order )
                                     <tr>
+                                        <td>#{{$order->id}}</td>
+                                        <td>{{$order->created_at->format('Y-m-d')}}</td>
+                                        <td>{{$order->status}}</td>
+                                        <td>${{$order->total_price}}</td>
+                                        <td class="action"><a href="{{ route('thank.you.page', $order->id) }}" class="view-order">View Order</a></td>
+                                    </tr>
+
+                                  @empty
+                                    <td style="text-align: center" colspan="5">Your orders is empty</td>
+                                  @endforelse
+
+                                    {{-- <tr>
                                         <td>#8083</td>
                                         <td>Sep 9, 2021</td>
                                         <td>Completed</td>
                                         <td>$350</td>
                                         <td class="action"><a href="#" class="view-order">View Order</a></td>
-                                    </tr>
+                                    </tr> --}}
 
-                                    <tr>
+                                    {{-- <tr>
                                         <td>#8283</td>
                                         <td>Sep 8, 2021</td>
                                         <td>Pending</td>
@@ -146,7 +159,7 @@
                                         <td>Completed</td>
                                         <td>$399</td>
                                         <td class="action"><a href="#" class="view-order">View Order</a></td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>

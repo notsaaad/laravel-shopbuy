@@ -76,6 +76,9 @@ class AuthController extends Controller
   }
 
   function account(){
-    return view('user.myaccount');
+    $user = auth()->user();
+
+    $orders = $user->orders;
+    return view('user.myaccount', compact('orders'));
   }
 }
