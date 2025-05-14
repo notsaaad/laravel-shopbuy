@@ -30,6 +30,10 @@ Route::post('/product/SetAllPublish',[ProductsController::class, 'SetAllPublish'
 Route::post('/product/SetAllDraft',[ProductsController::class, 'SetAllDraft'])->name('admin.products.SetAllDraft');
 Route::get('/product/getAllAttributs',[ProductsController::class, 'GetAllAttributs'] )->name('admin.products.GetAllAttributs');
 Route::get('/product/getAllAttributsValues/{id}',[ProductsController::class, 'GetAllAttributsvalues'] )->name('admin.products.GetAllAttributsValues');
+Route::get('/prouct/{product}/variants', [ProductsController::class, 'editVaraint'])->name('admin.products.variants.edit');
+Route::post('/prouct/{product}/variantspost', [ProductsController::class, 'editVaraintpost'])->name('admin.products.variants.store');
+Route::get('/prouct/{product}/variants2', [ProductsController::class, 'editVaraint2'])->name('admin.products.variants.edit2');
+Route::post('/prouct/{product}/variantspost2', [ProductsController::class, 'editVaraintpost2'])->name('admin.products.variants.store2');
 
 
 

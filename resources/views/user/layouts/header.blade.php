@@ -62,6 +62,14 @@
             </div>
 
             <div class="header-icons">
+              @auth
+                <div class="my-account-icons" title="{{Auth::user()->name}}">
+                  <a  href="{{ route('myaccount') }}" id="account-header">
+                    <i class="fa-solid fa-user"></i>
+                  </a>
+                </div>
+
+              @endauth
                 <div class="cart">
                   @php
                     use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -82,8 +90,8 @@
           </div>
           <div class="navbar">
             <a class="links" href="{{ route('index') }}">Home</a>
-            <a class="links" href="{{ route('store') }}">Store</a>
-            <a class="links" href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">Orders</a>
+            <a class="links" href="{{ route('Store.AllCategories') }}">Store</a>
+            <a class="links" href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">My Orders</a>
             <a class="links" href="#">Contact us</a>
 
             {{-- <div class="dropdown">
@@ -126,7 +134,7 @@
         </div>
 
       </header>
-      
+
       @include('user.layouts.sidebar')
 
     <!-- ================================================== End Header ==================================================== -->

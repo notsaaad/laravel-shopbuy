@@ -33,7 +33,7 @@
       <ul>
         @auth
         <li><a href="{{ route('myaccount') }}">My Account Page</a></li>
-        <li><a href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">Orders</a></li>
+        <li><a href="{{ route('myaccount', ['tab'=> 'my-orders']) }}">My Orders</a></li>
         <li><a href="{{ route('logout') }}">Log Out</a></li>
         @endauth
         @guest
@@ -50,9 +50,9 @@
     </div>
 
     <div class="footer-column col-sm-12 col-md-6 col-lg-3">
-      <h4>About Best Buy</h4>
+      <h4>About Shop&Buy</h4>
       <ul>
-        <li><a href="{{ route('store') }}">Store</a></li>
+        <li><a href="{{ route('Store.AllCategories') }}">Store</a></li>
         <li><a href="#">Contact Us</a></li>
         <li><a href="#">Policy & Privacy</a></li>
       </ul>

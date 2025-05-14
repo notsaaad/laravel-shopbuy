@@ -64,13 +64,13 @@ class Product extends Model
     }
     protected $appends = ['formatted_variants'];
     // Accessor for formatted_variants
-    public function getFormattedVariantsAttribute(){
-
+    public function getFormattedVariantsAttribute()
+    {
         if ($this->type !== 'variant') {
             return null;
         }
 
-        // Load relations if not loaded
+        // تأكد من تحميل العلاقات المطلوبة
         $this->loadMissing('variants.attributeValues.attribute');
 
         $variantData = [];
@@ -80,18 +80,21 @@ class Product extends Model
 
             foreach ($variant->attributeValues as $attrVal) {
                 $attributes[] = [
-                    'attribute' => $attrVal->attribute->name,
-                    'value' => $attrVal->value,
-                    'color_code' => $attrVal->color_code,
+                    'attribute'   => $attrVal->attribute->name,
+                    'value'       => $attrVal->value,
+                    'color_code'  => $attrVal->color_code,
+                    'image_path'  => $variant->image_path, // مضافة هنا لكل attribute
                 ];
             }
 
             $variantData[$variant->id] = [
-                'attributes' => $attributes,
-                'stock' => $variant->stock,
+                'attributes'  => $attributes,
+                'stock'       => $variant->stock,
+                'image_path'  => $variant->image_path, // وهنا كمان نضيفها للـ variant نفسه
             ];
         }
 
         return $variantData;
     }
+
 }

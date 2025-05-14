@@ -11,14 +11,21 @@ use App\Http\Controllers\Controller;
 
 class StoreController extends Controller
 {
-  function index(Request $request, $category = null){
+public function index(Request $request, $category = null)
+{
+    // استخلاص category من query string إذا لم يُمرر من الـ route
+    if (!$category && $request->has('category')) {
+        $category = $request->get('category');
+    }
+
+    // 1. قراءة الفلاتر من الطلب
     $filters = $request->input('filters', []);
     $flattenedValues = array_merge(...array_values($filters));
     $requiredCount = count($flattenedValues);
     $filteredProductIds = [];
 
+    // 2. استخراج الـ Products اللي الـ Variants بتاعتهم فيها الفلاتر دي كلها
     if ($requiredCount > 0) {
-        // جلب الـ variants اللي تحتوي على جميع القيم المختارة
         $matchedProductIds = DB::table('product_variants as pv')
             ->join('variant_attribute_value as vav', 'vav.variant_id', '=', 'pv.id')
             ->whereIn('vav.attribute_value_id', $flattenedValues)
@@ -31,26 +38,32 @@ class StoreController extends Controller
         $filteredProductIds = $matchedProductIds;
     }
 
-    // المنتجات المفلترة + التصنيف إن وُجد
+    // 3. استخراج المنتجات نفسها
     $products = Product::where('is_draft', 0)
-                ->when(!empty($filteredProductIds), function ($q) use ($filteredProductIds) {
-                    $q->whereIn('id', $filteredProductIds);
-                })
-                ->when($category, function ($q) use ($category) {
-                    $q->whereHas('categories', function ($query) use ($category) {
-                        $query->where('categories.id', $category);
-                    });
-                })
-                ->with('variants.attributeValues.attribute')
-                ->get();
+        ->when(!empty($filteredProductIds), function ($q) use ($filteredProductIds) {
+            $q->whereIn('id', $filteredProductIds);
+        })
+        ->when($category, function ($q) use ($category) {
+            $q->whereHas('categories', function ($query) use ($category) {
+                $query->where('categories.id', $category);
+            });
+        })
+        ->with('variants.attributeValues.attribute')
+        ->get();
 
-    // الفلاتر من كل المنتجات المتاحة
+    // 4. استخراج كل الـ variant من المنتجات الظاهرة فقط
+    $visibleProductIds = $products->pluck('id')->toArray();
+    $allVariants = ProductVariant::with('attributeValues.attribute')
+        ->whereIn('product_id', $visibleProductIds)
+        ->get();
+
+    // 5. بناء الفلاتر فقط من المنتجات الحالية
     $filtersData = [];
-    $allVariants = ProductVariant::with('attributeValues.attribute')->get();
-
     foreach ($allVariants as $variant) {
         foreach ($variant->attributeValues as $val) {
             $attr = $val->attribute;
+            if (!$attr) continue;
+
             $filtersData[$attr->id]['name'] = $attr->name;
             $filtersData[$attr->id]['display_type'] = $attr->display_type;
             $filtersData[$attr->id]['values'][$val->id] = [
@@ -59,18 +72,37 @@ class StoreController extends Controller
             ];
         }
     }
-    if($category){
-      $categoryModel = Category::find($category);
-      $category = $categoryModel ? $categoryModel->name : null;
+
+    // 6. اسم التصنيف للعرض (اختياري)
+    $categoryName = null;
+    if ($category) {
+        $categoryModel = Category::find($category);
+        $categoryName = $categoryModel ? $categoryModel->name : null;
     }
-    // return $category;
-    return view('user.store', compact('products', 'filtersData', 'category'));
-  }
+
+    return view('user.store', compact('products', 'filtersData', 'categoryName', 'category'));
+}
 
 
-  function categories(){
+
+  function categories(Request $request){
     $categories = Category::withCount('products')->get();
-    // return $categories;
+    $sort = $request->get('sort', 'asc');
+
+    $query = Category::withCount('products');
+
+    if ($sort === 'asc') {
+        $query->orderBy('name', 'asc');
+    } elseif ($sort === 'desc') {
+        $query->orderBy('name', 'desc');
+    } elseif ($sort === 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    } elseif ($sort === 'newest') {
+        $query->orderBy('created_at', 'desc');
+    }
+
+    $categories = $query->get();
+
     return view('user.categories', compact('categories'));
   }
 
@@ -82,12 +114,35 @@ class StoreController extends Controller
 
     // =============================== Prodducts ===============================
 
-    function product_show($id){
-      $product = Product::with('variants.attributeValues.attribute')->findOrFail($id);
-      $product->gallery = json_decode($product->gallery, true);
-      // return $product;
-      return view('user.singleProduct', compact('product'));
+public function product_show(Request $request, $id)
+{
+    $product = Product::with(['variants.attributeValues.attribute'])->findOrFail($id);
+    $product->gallery = json_decode($product->gallery, true) ?? [];
+
+    $selectedColor = $request->get('color');
+    $colorOptions = [];
+
+    $defaultImage = $product->image;
+
+    foreach ($product->variants as $variant) {
+        foreach ($variant->attributeValues as $val) {
+            if ($val->attribute->display_type === 'color') {
+                $colorOptions[] = [
+                    'value' => $val->value,
+                    'color_code' => $val->color_code,
+                    'image_path' => $variant->image_path ?? null,
+                ];
+
+                if ($selectedColor && $selectedColor === $val->value && $variant->image_path) {
+                    $defaultImage = $variant->image_path;
+                }
+            }
+        }
     }
+
+    return view('user.singleProduct', compact('product', 'selectedColor', 'colorOptions', 'defaultImage'));
+}
+
 
     public function search(Request $request)
     {

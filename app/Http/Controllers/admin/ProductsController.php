@@ -44,99 +44,65 @@ class ProductsController extends Controller
 
 
 
-    function post(Request $request){
+  function post(Request $request){
 
-      $rules = [
-        'title'         => 'required|string|max:255',
-        'price'         => 'required|numeric|min:0',
-        'sale'          => 'required|numeric|min:0',
-        'image'         => 'required|mimes:png,jpg,jpeg,webp',
-        'categories'    => 'required|array',
-        'categories.*'  => 'exists:categories,id',
-        'type'          => 'required|in:simple,variant',
-        'stock'         => 'nullable|integer|min:0',
-        'gallery'       => 'nullable',
-        'gallery.*'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-      ];
+    $rules = [
+        'title'        => 'required|string|max:255',
+        'price'        => 'required|numeric|min:0',
+        'sale'         => 'required|numeric|min:0',
+        'image'        => 'required|mimes:png,jpg,jpeg,webp',
+        'categories'   => 'required|array',
+        'categories.*' => 'exists:categories,id',
+        'type'         => 'required|in:simple,variant',
+        'stock'        => 'nullable|integer|min:0',
+        'gallery'      => 'nullable',
+        'gallery.*'    => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+    ];
 
-      if ($request->type == 'variant') {
-        $rules['attribute_values'] = 'required|array|min:1';
+    $validator = Validator::make($request->all(), $rules);
 
-        foreach ($request->input('attribute_values', []) as $attrId => $values) {
-          $rules["attribute_values.$attrId"]   = 'required|array|min:1';
-          $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
-        }
-
-        $rules['variants'] = 'required|array|min:1';
-
-        foreach ($request->input('variants', []) as $index => $variant) {
-          $rules["variants.$index.attributes"]    = 'required|array|min:1';
-          $rules["variants.$index.attributes.*"]  = 'exists:attribute_values,id';
-          $rules["variants.$index.stock"]         = 'nullable|numeric|min:0';
-        }
-      }
-
-      $validator = Validator::make($request->all(), $rules);
-
-      if ($validator->fails()) {
+    if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
-      }
+    }
 
-      $product = new Product();
-      $product->title         = $request->title;
-      $product->price         = $request->price;
-      $product->sale          = $request->sale;
-      $product->type          = $request->type;
-      $product->description   = $request->description;
-      $product->stock         = $request->stock;
+    $product = new Product();
+    $product->title       = $request->title;
+    $product->price       = $request->price;
+    $product->sale        = $request->sale;
+    $product->type        = $request->type;
+    $product->description = $request->description;
 
-      if ($request->hasFile('image')) {
+    if ($request->type === 'simple') {
+        $product->stock = $request->stock;
+    }
+
+    if ($request->hasFile('image')) {
         $path = ProductImagePath();
-        $file_name = uploadImage($request->image, $path );
+        $file_name = uploadImage($request->image, $path);
         $product->image = $file_name;
-      }
+    }
 
-      $galleryPaths = [];
+    $galleryPaths = [];
 
-      if ($request->hasFile('gallery')) {
-          $path = ProductImagePath();
-          foreach ($request->file('gallery') as $file) {
-              $file_name = uploadImage($file, $path);
+    if ($request->hasFile('gallery')) {
+        $path = ProductImagePath();
+        foreach ($request->file('gallery') as $file) {
+            $file_name = uploadImage($file, $path);
+            $galleryPaths[] = $file_name;
+        }
+    }
 
-              if (!in_array($file_name, $galleryPaths)) {
-                  $galleryPaths[] = $file_name;
-              }
-          }
-      }
+    $product->gallery = !empty($galleryPaths) ? json_encode(array_unique($galleryPaths)) : null;
+
+    $product->save();
+
+    $product->categories()->sync($request->categories);
 
 
-      $galleryPaths = array_unique($galleryPaths);
-
-      $product->gallery = !empty($galleryPaths) ? json_encode($galleryPaths) : null;
-
-      $product->save();
-
-      $product->categories()->sync($request->categories);
-
-      if ($product->type == 'variant' && isset($request->variants)) {
-          foreach ($request->variants as $variantData) {
-              $variant = new ProductVariant();
-              $variant->product_id = $product->id;
-              $variant->stock = $variantData['stock'];
-              $variant->save();
-
-            $attributeValueIds = is_array($variantData['attributes'])
-                ? array_map('intval', $variantData['attributes'])
-                : array_map('intval', explode(',', $variantData['attributes'][0]));
-
-              foreach ($attributeValueIds as $attrValId) {
-                  VariantAttributeValue::create([
-                      'variant_id' => $variant->id,
-                      'attribute_value_id' => $attrValId,
-                  ]);
-              }
-          }
-      }
+    if ($product->type === 'variant') {
+        return redirect()->route('admin.products.variants.edit', $product->id)
+            ->with('success', 'Product Save , Add your variants');
+    }
 
       return redirect()->route('admin.product.add')->with(['success'=> 'Product Added']);
     }
@@ -189,114 +155,246 @@ class ProductsController extends Controller
 
       $product = Product::findOrFail($id);
 
+    $product = Product::findOrFail($id);
+
     $rules = [
-        'title' => 'required|string|max:255',
-        'price' => 'required|numeric|min:0',
-        'sale' => 'required|numeric|min:0',
-        'image' => 'nullable|mimes:png,jpg,jpeg,webp',
-        'categories' => 'required|array',
+        'title'        => 'required|string|max:255',
+        'price'        => 'required|numeric|min:0',
+        'sale'         => 'required|numeric|min:0',
+        'image'        => 'nullable|mimes:png,jpg,jpeg,webp',
+        'categories'   => 'required|array',
         'categories.*' => 'exists:categories,id',
-        'statue' => 'required|in:0,1',
-        'stock' => 'nullable|integer|min:0',
-        'gallery' => 'nullable',
-        'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'statue'       => 'required|in:0,1',
+        'stock'        => 'nullable|integer|min:0',
+        'gallery'      => 'nullable',
+        'gallery.*'    => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
     ];
-
-    if ($product->type === 'variant') {
-        $rules['attribute_values'] = 'required|array|min:1';
-
-        foreach ($request->input('attribute_values', []) as $attrId => $values) {
-            $rules["attribute_values.$attrId"] = 'required|array|min:1';
-            $rules["attribute_values.$attrId.*"] = 'exists:attribute_values,id';
-        }
-
-        $rules['variants'] = 'required|array|min:1';
-        foreach ($request->input('variants', []) as $index => $variant) {
-            $rules["variants.$index.attributes"] = 'required|string';
-            $rules["variants.$index.stock"] = 'required|numeric|min:0';
-        }
-    }
 
     $validated = $request->validate($rules);
 
+    $product->title       = $validated['title'];
+    $product->price       = $validated['price'];
+    $product->sale        = $validated['sale'];
+    $product->is_draft    = $validated['statue'];
+    $product->description = $request->description;
+    $product->type        = $product->type; // لا يتم تغييره هنا
 
-    $product->title         = $validated['title'];
-    $product->price         = $validated['price'];
-    $product->sale          = $validated['sale'];
-    $product->is_draft      = $validated['statue'];
-    $product->description   = $request->description;
-    $product->stock         = $request->stock;
+    if ($product->type === 'simple') {
+        $product->stock = $validated['stock'];
+    }
 
-
+    // صورة رئيسية
     if ($request->hasFile('image')) {
         $path = ProductImagePath();
         $file_name = uploadImage($request->image, $path, $product->image);
         $product->image = $file_name;
     }
-        $product->gallery = json_decode($product->gallery, true);
-        $existingGallery = $product->gallery ?? [];
-    if ($request->filled('removed_images')) {
 
+    // معرض الصور
+    $existingGallery = json_decode($product->gallery, true) ?? [];
+
+    if ($request->filled('removed_images')) {
         $indicesToRemove = explode(',', $request->removed_images);
         foreach ($indicesToRemove as $index) {
             if (isset($existingGallery[$index])) {
-                $file_name  = $existingGallery[$index];
-                $path       = 'admin/images/products/'.$file_name;
+                $file_name = $existingGallery[$index];
+                $path = ProductImagePath() . $file_name;
                 DeleteImage($path);
                 unset($existingGallery[$index]);
             }
         }
     }
 
-
     $existingGallery = array_values($existingGallery);
 
-
     if ($request->hasFile('gallery')) {
-      $path = ProductImagePath();
+        $path = ProductImagePath();
         foreach ($request->file('gallery') as $file) {
             $file_name = uploadImage($file, $path);
             $existingGallery[] = $file_name;
         }
     }
 
-    $product->gallery = !empty($existingGallery) ? json_encode($existingGallery) : null;
+    $product->gallery = !empty($existingGallery) ? json_encode(array_unique($existingGallery)) : null;
 
     $product->save();
 
-
     $product->categories()->sync($validated['categories']);
 
+      return redirect()->route('admin.products.index')->with(['success'=> "updated Product id:$id"]);
+    }
 
-    if ($product->type === 'variant') {
+    function editVaraint(Product $product){
+    $attributes = Attribute::with('values')->get();
 
+    // Identify the attribute that is a color (has values with color_code)
+    $colorAttributeId = null;
+
+    foreach ($attributes as $attribute) {
+        foreach ($attribute->values as $value) {
+            if (!empty($value->color_code)) {
+                $colorAttributeId = $attribute->id;
+                break 2;
+            }
+        }
+    }
+
+      $galleryImages = collect(json_decode($product->gallery, true) ?? [])->map(function ($filename) {
+          return [
+              'filename' => $filename,
+              'url' => asset(ProductImagePath() . $filename)
+          ];
+      });
+
+      $colorAttribute = Attribute::where('display_type', 'color')
+                          ->with('values')
+                          ->first();
+
+      return view('admin.products.variants', [
+          'product' => $product,
+          'attributes' => $attributes, // all attributes with values
+          'colorAttribute' => $colorAttribute,
+          'colorAttributeId' => $colorAttribute?->id,
+          'galleryImages' => $galleryImages
+      ]);
+    }
+
+    function editVaraintpost(Request $request, Product $product){
+$request->validate([
+        'attribute_values' => 'required|array|min:1',
+        'variants'         => 'required|array|min:1',
+        'variants.*.attributes' => 'required|string',
+        'variants.*.stock'      => 'required|numeric|min:0',
+    ]);
+
+    // color_images: [color_value_id => image_filename]
+    $colorImages = $request->input('color_images', []);
+
+    // Identify color attribute dynamically (based on color_code)
+    $colorAttributeId = null;
+    foreach (AttributeValue::with('attribute')->get() as $value) {
+        if (!empty($value->color_code)) {
+            $colorAttributeId = $value->attribute_id;
+            break;
+        }
+    }
+
+    // Delete existing variants if any
+    foreach ($product->variants as $oldVariant) {
+        $oldVariant->attributeValues()->detach();
+        $oldVariant->delete();
+    }
+
+    // Create new variants
+    foreach ($request->input('variants') as $variantData) {
+        $variant = new ProductVariant();
+        $variant->product_id = $product->id;
+        $variant->stock = $variantData['stock'];
+
+        $attributeValueIds = explode(',', $variantData['attributes']);
+        $variant->save();
+        $variant->attributeValues()->attach($attributeValueIds);
+
+        // Assign image based on color value
+        if ($colorAttributeId) {
+            foreach ($attributeValueIds as $valId) {
+                $val = AttributeValue::find($valId);
+                if ($val && $val->attribute_id == $colorAttributeId && isset($colorImages[$valId])) {
+                    $variant->image_path = $colorImages[$valId];
+                    $variant->save(); // Save after assigning image
+                    break;
+                }
+            }
+        }
+    }
+
+    return redirect()->route('admin.products.variants.edit', $product->id)
+        ->with('success', 'Variants have been saved successfully.');
+    }
+
+
+    public function editVaraint2(Product $product)
+    {
+        // جلب كل الخصائص مع القيم المرتبطة بها
+        $attributes = Attribute::with('values')->get();
+
+        // تجهيز صور الجاليري للعرض
+        $galleryImages = collect(json_decode($product->gallery, true) ?? [])->map(function ($filename) {
+            return [
+                'filename' => $filename,
+                'url' => asset(ProductImagePath() . $filename),
+            ];
+        });
+
+        // جلب خصائص اللون إن وجدت
+        $colorAttribute = Attribute::where('display_type', 'color')->with('values')->first();
+        $colorAttributeId = $colorAttribute?->id;
+
+        // استخراج كل القيم المستخدمة مسبقًا في الفاريانتات
+        $selectedAttributeValues = $product->variants
+            ->flatMap(fn($variant) => $variant->attributeValues->pluck('id'))
+            ->unique()
+            ->toArray();
+
+        return view('admin.products.variants_edit2', [
+            'product' => $product,
+            'attributes' => $attributes,
+            'galleryImages' => $galleryImages,
+            'colorAttribute' => $colorAttribute,
+            'colorAttributeId' => $colorAttributeId,
+            'selectedAttributeValues' => $selectedAttributeValues,
+        ]);
+    }
+
+
+    public function editVaraintpost2(Request $request, Product $product)
+    {
+        $request->validate([
+            'attribute_values' => 'required|array|min:1',
+            'variants'         => 'required|array|min:1',
+            'variants.*.attributes' => 'required|string',
+            'variants.*.stock'      => 'required|numeric|min:0',
+            'color_images'          => 'nullable|array',
+        ]);
+
+        $colorImages = $request->input('color_images', []);
+
+        // Identify the color attribute dynamically
+        $colorAttributeId = AttributeValue::with('attribute')
+            ->whereNotNull('color_code')
+            ->first()?->attribute_id;
+
+        // Delete old variants
         foreach ($product->variants as $oldVariant) {
             $oldVariant->attributeValues()->detach();
             $oldVariant->delete();
         }
 
-
-        foreach ($validated['variants'] as $variantData) {
+        foreach ($request->input('variants') as $variantData) {
             $variant = new ProductVariant();
             $variant->product_id = $product->id;
             $variant->stock = $variantData['stock'];
-            $variant->save();
 
             $attributeValueIds = explode(',', $variantData['attributes']);
+            $variant->save();
             $variant->attributeValues()->attach($attributeValueIds);
+
+            // Assign image based on color value if applicable
+            if ($colorAttributeId) {
+                foreach ($attributeValueIds as $valId) {
+                    $val = AttributeValue::find($valId);
+                    if ($val && $val->attribute_id == $colorAttributeId && isset($colorImages[$valId])) {
+                        $variant->image_path = $colorImages[$valId];
+                        $variant->save();
+                        break;
+                    }
+                }
+            }
         }
-    }
 
-      return redirect()->route('admin.products.index')->with(['success'=> "updated Product id:$id"]);
-    }
-
-    function GetAllAttributs(){
-      $Attributs = Attribute::get();
-      return response()->json($Attributs);
-    }
-
-    function GetAllAttributsvalues(string $id){
-      $values = AttributeValue::where('attribute_id', $id)->get();
-      return response()->json($values);
+        return redirect()->route('admin.products.variants.edit2', $product->id)
+            ->with('success', 'Variants updated successfully.');
     }
 }
+
+
