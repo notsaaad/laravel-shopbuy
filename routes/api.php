@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\APIs\UserController;
 use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\APIs\ProductController;
 use App\Http\Controllers\APIs\CategroyController;
