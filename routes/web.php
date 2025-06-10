@@ -68,4 +68,4 @@ Route::controller(OrderController::class)->group(function(){
 
 
 
-Route::get('api/products', [API::class, 'index']);
+// Route::get('api/products', [API::class, 'index']);

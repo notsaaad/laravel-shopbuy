@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\HomeController;
+use App\Http\Controllers\APIs\ProductController;
+use App\Http\Controllers\APIs\CategroyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +21,21 @@ use App\Http\Controllers\user\HomeController;
 //     return $request->user();
 // });
 
-Route::get('/products', [HomeController::class, 'api_product']);
+// Route::get('/products', [HomeController::class, 'api_product']);
+
+
+Route::controller(ProductController::class)->prefix('products')->group(function(){
+  Route::get('/', 'index');
+});
+
+
+
+Route::controller(CategroyController::class)->prefix('categroies')->group(function(){
+  Route::get('/', 'index');
+});
+
+
+
+Route::controller(UserController::class)->prefix('users')->group(function(){
+  Route::get('/', 'index');
+});
