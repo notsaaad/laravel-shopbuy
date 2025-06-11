@@ -10,6 +10,10 @@ class CategroyController extends Controller
 {
   function index(){
     $categroies = Category::get();
+
+    foreach ($categroies as $cat) {
+      $cat->image = CategoryImagePath().$cat->image;
+    }
     return response()->json([
     'status' => true,
     'message' => 'Categories retrieved successfully.',
