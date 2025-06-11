@@ -41,7 +41,7 @@
         <span>View Catrogy <span class="count"></span></span>
         <div class="outputs">
             <div class="search_block">
-                <input type="text" class="search"placeholder="Search Product" onkeyup="SearchTable(this)">
+                <input type="text" class="search"placeholder="Search Catrogy" onkeyup="SearchTable(this)">
             </div>
         </div>
           <div class="table_header">

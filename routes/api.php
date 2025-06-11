@@ -27,6 +27,7 @@ use App\Http\Controllers\APIs\CategroyController;
 
 Route::controller(ProductController::class)->prefix('products')->group(function(){
   Route::get('/', 'index');
+  Route::get('{id}','category' );
 });
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class HomeController extends Controller
     $allProducts  = Product::count();
     $allUsers     = User::count();
     $Attributes   = Attribute::count();
+    $AllOrders    = Order::count();
     $products     = Product::with('categories')->paginate(SELF::Pagination_count);
     return view('admin.Home', get_defined_vars());
   }

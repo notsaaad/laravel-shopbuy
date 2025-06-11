@@ -62,5 +62,20 @@
 
 
             {{--==================== End Users =============================  --}}
+        {{--==================== start Users =============================  --}}
+    <li class="DropDown ">
+      <div class="list-content list-link link">
+        <div class="list-main-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+        <div class="list-name">Order</div>
+        <i class="dropDown-icon fa-solid fa-sort-down"></i>
+      </div>
+      <ul class="submenu">
+        <a href="{{ route('admin.order.add') }}" class="list-link link">Add</a>
+        <a href="{{ route('admin_order_view') }}" class="list-link link">View</a>
+      </ul>
+    </li>
+
+
+            {{--==================== End Users =============================  --}}
   </ul>
 </aside>

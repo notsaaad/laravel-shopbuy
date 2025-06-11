@@ -70,7 +70,7 @@ class Product extends Model
             return null;
         }
 
-        // تأكد من تحميل العلاقات المطلوبة
+
         $this->loadMissing('variants.attributeValues.attribute');
 
         $variantData = [];

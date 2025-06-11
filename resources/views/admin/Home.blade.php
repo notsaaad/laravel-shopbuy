@@ -16,12 +16,12 @@
           <span class="total_cont">  {{ $allProducts }}  <i class="fa-solid fa-arrow-up-right-dots"></i></span>
         </div>
       </a>
-      <div class="col-sm-12 col-md-6">
+      <a href="{{ route('admin_order_view') }}" class="link box-total col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Orders</h2>
-          <span class="total_cont">  500  <i class="fa-solid fa-chart-line"></i></span>
+          <span class="total_cont">  {{ $AllOrders }}  <i class="fa-solid fa-chart-line"></i></span>
         </div>
-      </div>
+      </a>
       <a href="{{ route('users.index') }}" class="link box-total col-sm-12 col-md-6">
         <div class="box-counter">
           <h2>Total Users</h2>

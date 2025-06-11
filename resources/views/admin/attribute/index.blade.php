@@ -41,7 +41,7 @@
         <span>View Attributes <span class="count"></span></span>
         <div class="outputs">
             <div class="search_block">
-                <input type="text" class="search"placeholder="Search Product" onkeyup="SearchTable(this)">
+                <input type="text" class="search"placeholder="Search Attributes" onkeyup="SearchTable(this)">
             </div>
         </div>
           <div class="table_header">

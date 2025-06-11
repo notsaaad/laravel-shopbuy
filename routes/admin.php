@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductsController;
 use App\Http\Controllers\admin\AttributeController;
@@ -73,3 +74,15 @@ Route::prefix('attribute')->controller(AttributeController::class)->group(functi
   // ================= End Attributes values ===========
 });
 
+
+
+
+Route::controller(OrderController::class)->prefix('orders')->group(function(){
+  Route::get('/', 'index')->name('admin_order_view');
+  Route::post('/DeleteALLValues', 'DeleteALLValues')->name('orders_value_delete_all');
+  Route::delete('/destroy/{id}', 'destroy')->name('order.destroy');
+  Route::get('/add', 'add')->name('admin.order.add');
+  Route::post('/store', 'store')->name('admin.order.store');
+  Route::get('/edit/{order}',  'edit')->name('admin.order.edit');
+  Route::put('/update/{order}',  'update')->name('admin.order.update');
+});
