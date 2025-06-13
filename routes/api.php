@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\APIs\AuthController;
 use App\Http\Controllers\APIs\UserController;
 use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\APIs\ProductController;
@@ -41,3 +42,16 @@ Route::controller(CategroyController::class)->prefix('categroies')->group(functi
 Route::controller(UserController::class)->prefix('users')->group(function(){
   Route::get('/', 'index');
 });
+
+
+
+Route::controller(AuthController::class)->group(function(){
+  Route::post('/register',  'register');
+  Route::post('/login',  'login');
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile',  'profile');
+    Route::post('/logout',  'logout');
+  });
+});
+
+
