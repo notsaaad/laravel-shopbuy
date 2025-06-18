@@ -5,12 +5,13 @@ namespace App\Http\Controllers\APIs;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
   function index(){
-    $Product = Product::get();
+    $Product = Product::where('is_draft', 1)->get();
 
     foreach ($Product as $q) {
       $path       = ProductImagePath() . $q->image;
@@ -26,7 +27,7 @@ class ProductController extends Controller
 
   function category($id){
     $category  = Category::find($id);
-    $product   = $category->products;
+    $product   = $category->products()->where('is_draft', 1);
 
     foreach ($product as $q) {
       $path       = ProductImagePath() . $q->image;
