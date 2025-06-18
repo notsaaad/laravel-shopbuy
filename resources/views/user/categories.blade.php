@@ -1,7 +1,7 @@
 @extends('user.layouts.master')
 
 
-@section('title', 'Home')
+@section('title', 'Categories')
 
 
 
@@ -10,6 +10,7 @@
 @section('css')
   {{-- From Home Blade --}}
   <link rel="stylesheet" href="{{URL::asset('public/user/css/home.css')}}">
+
 
 @stop
 <br>

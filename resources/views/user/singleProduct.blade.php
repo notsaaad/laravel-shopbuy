@@ -44,7 +44,7 @@
       </div>
     @endguest
 
-    <div class="product-page d-flex gap-4 mt-5">
+    <div class="product-page d-flex gap-4 mt-5 flex-wrap">
       {{-- Images --}}
       <div class="product-images">
         <a id="mainImageLink" href="{{ URL::asset(ProductImagePath() . $product['image']) }}" data-lightbox="product-gallery">

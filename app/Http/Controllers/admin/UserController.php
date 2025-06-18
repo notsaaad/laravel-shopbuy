@@ -84,7 +84,7 @@ class UserController extends Controller
             'user_username' => 'required|string|max:255',
             'user_email'    => 'required|email|max:255|unique:users,email,'.$id,
             'role'          => 'required|string',
-            'user_password'      => 'nullable|string|confirmed', // يشمل التحقق من confirmation
+            'user_password'      => 'nullable|string|confirmed',
         ]);
         $data = [
           'name'    => $request->user_username,
