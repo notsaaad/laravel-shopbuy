@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class CategroyController extends Controller
 {
   function index(){
-    $categroies = Category::get();
+    $categroies = Category::withCount('products')->get();
 
     foreach ($categroies as $cat) {
       $path       = CategoryImagePath() . $cat->image;

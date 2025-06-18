@@ -11,6 +11,12 @@ class ProductController extends Controller
 {
   function index(){
     $Product = Product::get();
+
+    foreach ($Product as $q) {
+      $path       = ProductImagePath() . $q->image;
+      $q->image = URL::asset($path);
+    }
+
     return response()->json([
     'status' => true,
     'message' => 'Products retrieved successfully.',
@@ -21,6 +27,12 @@ class ProductController extends Controller
   function category($id){
     $category  = Category::find($id);
     $product   = $category->products;
+
+    foreach ($product as $q) {
+      $path       = ProductImagePath() . $q->image;
+      $q->image = URL::asset($path);
+    }
+
     return response()->json([
       'status' => true,
       'message' => 'Products retrieved successfully.',
