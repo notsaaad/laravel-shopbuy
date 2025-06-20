@@ -62,7 +62,42 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'product_id');
     }
-    protected $appends = ['formatted_variants'];
+
+
+  protected $appends = ['formatted_variants', 'attributes'];
+
+public function getAttributesAttribute()
+{
+    return $this->getAttributeOptions();
+}
+
+
+  public function getAttributeOptions()
+  {
+      $attributes = [];
+
+      foreach ($this->variants as $variant) {
+          foreach ($variant->attributeValues as $attrVal) {
+              $attrName = $attrVal->attribute->name;
+              $attrValue = $attrVal->value;
+
+              if (!isset($attributes[$attrName])) {
+                  $attributes[$attrName] = [];
+              }
+
+              if (!in_array($attrValue, $attributes[$attrName])) {
+                  $attributes[$attrName][] = $attrValue;
+              }
+          }
+      }
+
+      return $attributes;
+  }
+
+
+
+
+
     // Accessor for formatted_variants
     public function getFormattedVariantsAttribute()
     {

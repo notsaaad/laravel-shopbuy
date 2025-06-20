@@ -42,68 +42,73 @@ class ProductController extends Controller
   }
 
 
-  public function single_product($id){
-      $product = Product::findOrFail($id);
+public function single_product($id)
+{
+    $product = Product::with('variants.attributeValues.attribute')->findOrFail($id);
 
-      $type = $product->variants()->exists() ? 'variant' : 'simple';
+    // تحديد نوع المنتج
+    $type = $product->variants()->exists() ? 'variant' : 'simple';
 
+    // معالجة الصور
+    $gallery = json_decode($product->gallery, true) ?? [];
 
-      $gallery = json_decode($product->gallery, true);
+    $gallary = collect($gallery)->map(function ($img) {
+        return URL::asset(ProductImagePath() . $img);
+    });
 
-      // توليد روابط URL كاملة باستخدام Storage
-      $gallary = collect($gallery)->map(function ($img) {
-          $path       = ProductImagePath() .$img;
-          return URL::asset($path);
-      });
+    $image = URL::asset(ProductImagePath() . $product->image);
 
-      $imagePath = ProductImagePath() .$product->image;
-      $image     = URL::asset($imagePath);
+    // إعداد الـ attributes لكل variant
+    $attributes = [];
 
-      $attributes = [];
-      if ($type === 'variant') {
-          $product->variants->each(function ($variant) use (&$attributes) {
-              foreach ($variant->attributeValues as $value) {
-                  $attrName = $value->attribute_name;
-                  $attrVal = $value->value;
-                  $attributes[$attrName][] = $attrVal;
-              }
-          });
+    if ($type === 'variant') {
+        foreach ($product->variants as $variant) {
+            foreach ($variant->attributeValues as $value) {
+                $attrName = $value->attribute->name ?? $value->attribute_name ?? 'Attribute';
+                $attrVal = $value->value;
+                $attributes[$attrName][] = $attrVal;
+            }
+        }
 
+        // إزالة القيم المكررة
+        foreach ($attributes as $key => $vals) {
+            $attributes[$key] = array_values(array_unique($vals));
+        }
+    }
 
-          foreach ($attributes as $key => $vals) {
-              $attributes[$key] = array_unique($vals);
-          }
-      }
+    // قائمة الـ variants بصيغة مرتبة
+    $variantList = [];
 
+    if ($type === 'variant') {
+        $variantList = $product->variants->map(function ($variant) {
+            $attrs = [];
 
-      $variantList = [];
-      if ($type === 'variant') {
-          $variantList = $product->variants->map(function ($variant) {
-              $attrs = [];
-              foreach ($variant->attributeValues as $val) {
-                  $attrs[$val->attribute_name] = $val->value;
-              }
+            foreach ($variant->attributeValues as $val) {
+                $attrName = $val->attribute->name ?? $val->attribute_name ?? 'Attribute';
+                $attrs[$attrName] = $val->value;
+            }
 
-              return [
-                  'id' => $variant->id,
-                  'attributes' => $attrs,
-                  'price' => $variant->price,
-                  'stock' => $variant->stock
-              ];
-          });
-      }
+            return [
+                'id'        => $variant->id,
+                'attributes'=> $attrs,
+                'price'     => $variant->price ?? null,
+                'stock'     => $variant->stock,
+            ];
+        })->values(); // للتأكد من عدم وجود مفاتيح غير مرتبة
+    }
 
-      return response()->json([
-          'id' => $product->id,
-          'type' => $type,
-          'name' => $product->title,
-          'description' => $product->description ?? '',
-          'price' => $product->price,
-          'image' => $image,
-          'sale' => $product->sale,
-          'gallary' => $gallary,
-          'attributes' => $attributes,
-          'variants' => $variantList,
-      ]);
-  }
+    return response()->json([
+        'id'          => $product->id,
+        'type'        => $type,
+        'name'        => $product->title,
+        'description' => $product->description ?? '',
+        'price'       => $product->price,
+        'sale'        => $product->sale,
+        'image'       => $image,
+        'gallary'     => $gallary,
+        'attributes'  => $attributes,
+        'variants'    => $variantList,
+    ]);
+}
+
 }
