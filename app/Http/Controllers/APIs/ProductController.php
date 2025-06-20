@@ -88,13 +88,19 @@ public function single_product($id)
                 $attrs[$attrName] = $val->value;
             }
 
+            // تحديد المسار الكامل للصورة إن وُجدت
+            $image = $variant->image_path
+                ? URL::asset(ProductImagePath() . $variant->image_path)
+                : null;
+
             return [
-                'id'        => $variant->id,
-                'attributes'=> $attrs,
-                'price'     => $variant->price ?? null,
-                'stock'     => $variant->stock,
+                'id'           => $variant->id,
+                'attributes'   => $attrs,
+                'price'        => $variant->price ?? null,
+                'stock'        => $variant->stock,
+                'image_path'   => $image, // 👈 اسم المفتاح زي ما طلبت
             ];
-        })->values(); // للتأكد من عدم وجود مفاتيح غير مرتبة
+        })->values();
     }
 
     return response()->json([
