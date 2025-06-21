@@ -222,7 +222,7 @@ public function single_product($id)
 
 
 public function search(Request $request)
-  {
+{
     $keyword = $request->input('query');
 
     if (!$keyword) {
@@ -232,22 +232,25 @@ public function search(Request $request)
         ], 400);
     }
 
-    $products = Product::with('variants.attributeValues.attribute')
-        ->where('title', 'LIKE', "%$keyword%")
-        ->orWhere('description', 'LIKE', "%$keyword%")
+    $products = Product::with(['variants.attributeValues.attribute'])
+        ->where(function ($q) use ($keyword) {
+            $q->where('title', 'LIKE', "%$keyword%")
+              ->orWhere('description', 'LIKE', "%$keyword%");
+        })
         ->take(10)
         ->get();
 
     $results = $products->map(function ($product) {
         $type = $product->variants()->exists() ? 'variant' : 'simple';
-
-        $image = URL::asset(ProductImagePath() . $product->image);
+        $image = $product->image ? URL::asset(ProductImagePath() . $product->image) : null;
 
         return [
             'id'    => $product->id,
             'name'  => $product->title,
             'image' => $image,
             'type'  => $type,
+            'price' => $product->price,
+            'sale'  => $product->sale,
         ];
     });
 
@@ -255,6 +258,4 @@ public function search(Request $request)
         'success'  => true,
         'products' => $results,
     ]);
-  }
-
 }
