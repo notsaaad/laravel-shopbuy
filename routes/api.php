@@ -30,6 +30,7 @@ Route::controller(ProductController::class)->prefix('products')->group(function(
   Route::get('/', 'index');
   Route::get('/single/{id}', 'single_product');
   Route::get('/cateogry/{id}', 'getCategoryProducts');
+  Route::get('search}', 'search');
 });
 
 

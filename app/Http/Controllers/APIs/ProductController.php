@@ -218,4 +218,43 @@ public function single_product($id)
         'variants'    => $variantList,
     ]);
   }
+
+
+
+public function search(Request $request)
+  {
+    $keyword = $request->input('query');
+
+    if (!$keyword) {
+        return response()->json([
+            'success' => false,
+            'message' => 'يرجى إدخال كلمة البحث'
+        ], 400);
+    }
+
+    $products = Product::with('variants.attributeValues.attribute')
+        ->where('title', 'LIKE', "%$keyword%")
+        ->orWhere('description', 'LIKE', "%$keyword%")
+        ->take(10)
+        ->get();
+
+    $results = $products->map(function ($product) {
+        $type = $product->variants()->exists() ? 'variant' : 'simple';
+
+        $image = URL::asset(ProductImagePath() . $product->image);
+
+        return [
+            'id'    => $product->id,
+            'name'  => $product->title,
+            'image' => $image,
+            'type'  => $type,
+        ];
+    });
+
+    return response()->json([
+        'success'  => true,
+        'products' => $results,
+    ]);
+  }
+
 }
