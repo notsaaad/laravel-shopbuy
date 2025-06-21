@@ -258,4 +258,5 @@ public function search(Request $request)
         'success'  => true,
         'products' => $results,
     ]);
+  }
 }
