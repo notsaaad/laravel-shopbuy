@@ -123,15 +123,22 @@
                 <strong>{{ $item->product_title }}</strong>
                 @if (!empty($item->variant_attributes))
                     <ul style="margin: 0; padding: 0 0 0 15px;">
-                        @foreach($item->variant_attributes as $attr)
-                            <li>
-                                {{ $attr['attribute'] }}:
-                                {{ $attr['value'] }}
-                                @if (!empty($attr['color_code']))
-                                    <span class="color-circle" style="background-color: {{ $attr['color_code'] }}"></span>
-                                @endif
-                            </li>
-                        @endforeach
+                      @php
+                          $attributes = is_string($item->variant_attributes)
+                              ? json_decode($item->variant_attributes, true)
+                              : $item->variant_attributes;
+                      @endphp
+
+                      @if(is_array($attributes))
+                          @foreach($attributes as $attr)
+                              <li>
+                                  {{ $attr['attribute'] }}: {{ $attr['value'] }}
+                                  @if (!empty($attr['color_code']))
+                                      <span class="color-circle" style="background-color: {{ $attr['color_code'] }}"></span>
+                                  @endif
+                              </li>
+                          @endforeach
+                      @endif
                     </ul>
                 @endif
             </td>
