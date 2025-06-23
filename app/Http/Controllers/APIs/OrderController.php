@@ -27,27 +27,27 @@ class OrderController extends Controller
 
     $userId = Auth::id();
 
-    // إنشاء الطلب الأساسي
+
     $order = Order::create([
         'user_id'     => $userId,
         'total_price' => $request->total_price,
         'status'      => 'pending',
     ]);
 
-    // إدراج المنتجات داخل الطلب
+
     foreach ($request->items as $item) {
         OrderItem::create([
             'order_id'          => $order->id,
             'product_title'     => $item['product_title'],
             'product_image'     => $item['product_image'],
-            'variant_attributes'=> json_encode($item['variant_attributes']),
+            'variant_attributes' => json_encode($item['variant_attributes']),
             'unit_price'        => $item['unit_price'],
             'quantity'          => $item['quantity'],
             'total_price'       => $item['unit_price'] * $item['quantity'],
         ]);
     }
 
-    // تخزين بيانات الشحن
+
     $shipping = $request->shipping;
     OrderUserMeta::create([
         'order_id' => $order->id,
