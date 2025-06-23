@@ -54,7 +54,7 @@ class OrderController extends Controller
         'name'     => $shipping['name'],
         'email'    => $shipping['email'],
         'phone'    => $shipping['phone'],
-        'country'  => $shipping['country'],
+        'country'  => "egy",
         'city'     => $shipping['city'],
         'address'  => $shipping['address'],
     ]);
