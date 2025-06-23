@@ -235,7 +235,7 @@ public function search(Request $request)
     $products = Product::with(['variants.attributeValues.attribute'])
         ->where(function ($q) use ($keyword) {
             $q->where('title', 'LIKE', "%$keyword%")
-              ->orWhere('description', 'LIKE', "%$keyword%");
+            ->orWhere('description', 'LIKE', "%$keyword%");
         })
         ->take(10)
         ->get();
