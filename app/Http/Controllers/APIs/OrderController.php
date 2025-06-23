@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-Route::middleware('auth:sanctum')->post('/orders', function (Request $request) {
-    $request->validate([
+
+
+  function store(Request $request){
+       $request->validate([
         'shipping.name'     => 'required|string',
         'shipping.email'    => 'required|email',
         'shipping.phone'    => 'required|string',
@@ -61,5 +63,6 @@ Route::middleware('auth:sanctum')->post('/orders', function (Request $request) {
         'message' => 'تم إنشاء الطلب بنجاح',
         'order_id' => $order->id,
     ], 201);
-});
+  }
+
 }

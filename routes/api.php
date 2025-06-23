@@ -57,3 +57,6 @@ Route::controller(AuthController::class)->group(function(){
 });
 
 
+Route::middleware('auth:sanctum')->controller(OrderController::class)->group(function(){
+  Route::post('/orders', 'store');
+});
