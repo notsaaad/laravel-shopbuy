@@ -199,7 +199,7 @@ class ProductsController extends Controller
             if (isset($existingGallery[$index])) {
                 $file_name = $existingGallery[$index];
                 $path = ProductImagePath() . $file_name;
-                DeleteImage($path);
+                // DeleteImage($path);
                 unset($existingGallery[$index]);
             }
         }
