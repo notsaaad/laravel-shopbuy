@@ -18,7 +18,7 @@ class OrderController extends Controller
         'shipping.name'     => 'required|string',
         'shipping.email'    => 'required|email',
         'shipping.phone'    => 'required|string',
-        'shipping.country'  => 'required|string',
+        // 'shipping.country'  => 'required|string',
         'shipping.city'     => 'required|string',
         'shipping.address'  => 'required|string',
         'items'             => 'required|array|min:1',
